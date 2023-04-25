@@ -46,4 +46,12 @@ public class Book extends BaseEntity {
             inverseJoinColumns = {@JoinColumn(name = "publisher_id")}
     )
     private List<Publisher> publishers;
+
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(
+            name = "book_author",
+            joinColumns = {@JoinColumn(name = "book_id")},
+            inverseJoinColumns = {@JoinColumn(name = "author_id")}
+    )
+    private List<Author> authors;
 }
