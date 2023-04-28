@@ -36,6 +36,7 @@ public class AuthorController {
         authorService.deleteAuthorById(id);
     }
 
+    @PutMapping("/update")
     public Author updateAuthor(@RequestBody Author author) {
         return authorService.updateAuthor(author);
     }
