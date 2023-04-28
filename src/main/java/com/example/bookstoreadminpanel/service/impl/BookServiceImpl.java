@@ -6,6 +6,7 @@ import com.example.bookstoreadminpanel.service.BookService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -27,11 +28,30 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book getBookById(Long id) {
-        return bookRepository.findById(id).get();
+        Optional<Book> foundedBook = bookRepository.findById(id);
+        return foundedBook.orElse(null);
     }
 
     @Override
     public Book updateBook(Book book) {
+        Optional<Book> resultBook = bookRepository.findById(book.getId());
+        if (resultBook.isPresent()) {
+            resultBook.get().setName(book.getName());
+            resultBook.get().setPrice(book.getPrice());
+            resultBook.get().setCurrency(book.getCurrency());
+            resultBook.get().setLanguage(book.getLanguage());
+            resultBook.get().setDescription(book.getDescription());
+            resultBook.get().setPublicationDate(book.getPublicationDate());
+            resultBook.get().setReviewList(book.getReviewList());
+            resultBook.get().setPublishers(book.getPublishers());
+            resultBook.get().setAuthors(book.getAuthors());
+            return bookRepository.save(resultBook.get());
+        }
         return null;
+    }
+
+    @Override
+    public void deleteBookById(Long id) {
+        bookRepository.deleteById(id);
     }
 }
