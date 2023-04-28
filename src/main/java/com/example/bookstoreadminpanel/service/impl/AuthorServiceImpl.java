@@ -37,12 +37,11 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public Author updateAuthor(Author author) {
-        Optional<Author> resultAuthor = authorRepository.findById(author.getId());
+    public Author updateAuthor(Long id, Author author) {
+        Optional<Author> resultAuthor = authorRepository.findById(id);
         if(resultAuthor.isPresent()){
             resultAuthor.get().setName(author.getName());
             resultAuthor.get().setBooks(author.getBooks());
-            resultAuthor.get().setId(author.getId());
             resultAuthor.get().setUpdateDate(author.getUpdateDate());
             resultAuthor.get().setCreateDate(author.getCreateDate());
         }

@@ -2,7 +2,7 @@
 spring:
   jpa:
     hibernate:
-      ddlAuto: create
+      ddlAuto: update
 
   datasource:
     url: jdbc:mysql://localhost:3306/bookstore
