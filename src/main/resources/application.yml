@@ -2,11 +2,11 @@
 spring:
   jpa:
     hibernate:
-      ddlAuto: create
+      ddlAuto: update
 
   datasource:
-    url: jdbc:mysql://localhost:3306/bookstore
+    url: jdbc:mysql://localhost:3306/book_store
     username: root
-    password: admin
+    password: 1312acab
     driverClassName: com.mysql.cj.jdbc.Driver
 
