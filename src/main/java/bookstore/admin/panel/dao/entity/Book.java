@@ -56,5 +56,6 @@ public class Book extends BaseEntity {
             inverseJoinColumns = {@JoinColumn(name = "author_id")}
     )
     private List<Author> authors;
+
 }
 
