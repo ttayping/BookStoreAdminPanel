@@ -38,11 +38,10 @@ public class BookService {
         return BookMapper.toBookDtoList(bookRepository.findAll());
     }
 
-//
-//    public BookDto getBookById(Long id) {
-//        Optional<Book> foundedBook = bookRepository.findById(id);
-//        return foundedBook.orElse(null);
-//    }
+
+    public BookDto getBookById(Long id) {
+        return  mapper.toBookDto(bookRepository.findById(id).get());
+    }
 //
 //
 //    public Book updateBook(Long id, Book book) {
@@ -63,9 +62,9 @@ public class BookService {
 //    }
 //
 //
-//    public void deleteBookById(Long id) {
-//        bookRepository.deleteById(id);
-//    }
+    public void deleteBookById(Long id) {
+        bookRepository.deleteById(id);
+    }
 //
 //
 //    public BookDto getBookByName(String name) {
