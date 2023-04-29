@@ -25,37 +25,37 @@ public class BookController {
     public ResponseEntity<List<BookDto>> getAllBooks() {
         return ResponseEntity.ok(bookService.getAllBooks());
     }
-//
-//    @GetMapping("/{id}")
-//    public ResponseEntity<BookDto> getBookById(@PathVariable Long id) {
-//        return ResponseEntity.ok(bookService.getBookById(id));
-//    }
-//
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Void> updateBook(@PathVariable Long id, @RequestBody BookRequestDto book) {
-//        bookService.updateBook(id, book);
-//        return ResponseEntity.ok().build();
-//
-//    }
-//
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> deleteBookById(@PathVariable Long id) {
-//        bookService.deleteBookById(id);
-//        return ResponseEntity.ok().build();
-//    }
-//
-//    @GetMapping("/name/{bookName}")
-//    public ResponseEntity<BookDto> getBookByName(@PathVariable String bookName) {
-//        return ResponseEntity.ok(bookService.getBookByName(bookName));
-//    }
-//
-//    @GetMapping("/author/{author}")
-//    public ResponseEntity<BookDto> getBookByAuthor(@PathVariable String author) {
-//        return ResponseEntity.ok(bookService.getBookByAuthor(author));
-//    }
-//
-//    @GetMapping("/language/{language}")
-//    public ResponseEntity<List<BookDto>> getBooksByLanguage(@PathVariable String language) {
-//        return ResponseEntity.ok(bookService.getBooksByLanguage(language));
-//    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<BookDto> getBookById(@PathVariable Long id) {
+        return ResponseEntity.ok(bookService.getBookById(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateBook(@PathVariable Long id, @RequestBody BookRequestDto bookRequestDto) {
+        bookService.updateBook(id, bookRequestDto);
+        return ResponseEntity.ok().build();
+
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteBookById(@PathVariable Long id) {
+        bookService.deleteBookById(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/name/{bookName}")
+    public ResponseEntity<BookDto> getBookByName(@PathVariable String bookName) {
+        return ResponseEntity.ok(bookService.getBookByName(bookName));
+    }
+
+    @GetMapping("/author/{author}")
+    public ResponseEntity<BookDto> getBookByAuthor(@PathVariable String author) {
+        return ResponseEntity.ok(bookService.getBookByAuthor(author));
+    }
+
+    @GetMapping("/language/{language}")
+    public ResponseEntity<List<BookDto>> getBooksByLanguage(@PathVariable String language) {
+        return ResponseEntity.ok(bookService.getBooksByLanguage(language));
+    }
 }

@@ -17,4 +17,5 @@ public class Author extends BaseEntity{
 
     @ManyToMany(mappedBy = "authors")
     private List<Book> books;
+
 }

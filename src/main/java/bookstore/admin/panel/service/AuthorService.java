@@ -34,8 +34,6 @@ public class AuthorService {
         if(resultAuthor.isPresent()){
             resultAuthor.get().setName(author.getName());
             resultAuthor.get().setBooks(author.getBooks());
-            resultAuthor.get().setUpdateDate(author.getUpdateDate());
-            resultAuthor.get().setCreateDate(author.getCreateDate());
         }
         return authorRepository.save(resultAuthor.get());
     }
