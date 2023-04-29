@@ -40,10 +40,8 @@ public class BookService {
 
 
     public BookDto getBookById(Long id) {
-//        Optional<Book> foundedBook = bookRepository.findById(id);
-//        return foundedBook.orElse(null);
-    return null;}
-
+    return  mapper.toBookDto(bookRepository.findById(id).get());
+    }
 
     public void updateBook(Long id, BookRequestDto bookRequestDto) {
         Optional<Book> resultBook = bookRepository.findById(id);
@@ -63,6 +61,7 @@ public class BookService {
 
 
     public BookDto getBookByName(String name) {
+
 //        List<Book> books = bookRepository.findAll();
 //        for (Book book : books) {
 //            if (Objects.equals(book.getName(), name)) return book;

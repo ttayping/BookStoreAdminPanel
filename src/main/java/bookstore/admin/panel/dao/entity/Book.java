@@ -18,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Book extends BaseEntity {
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
     @Column(name = "language")
