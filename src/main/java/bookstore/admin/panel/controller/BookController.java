@@ -14,22 +14,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookController {
     private final BookService bookService;
-
     @PostMapping
-    public ResponseEntity<Void> addBook(@RequestBody BookRequestDto book) {
+    public ResponseEntity<Void> addBook(@RequestBody BookRequestDto book ) {
         bookService.addBook(book);
         return ResponseEntity.ok().build();
     }
-
     @GetMapping
     public ResponseEntity<List<BookDto>> getAllBooks() {
         return ResponseEntity.ok(bookService.getAllBooks());
     }
-//
-//    @GetMapping("/{id}")
-//    public ResponseEntity<BookDto> getBookById(@PathVariable Long id) {
-//        return ResponseEntity.ok(bookService.getBookById(id));
-//    }
+    @GetMapping("/{id}")
+    public ResponseEntity<BookDto> getBookById(@PathVariable Long id) {
+        return ResponseEntity.ok(bookService.getBookById(id));
+    }
 //
 //    @PutMapping("/{id}")
 //    public ResponseEntity<Void> updateBook(@PathVariable Long id, @RequestBody BookRequestDto book) {
@@ -37,12 +34,12 @@ public class BookController {
 //        return ResponseEntity.ok().build();
 //
 //    }
-//
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> deleteBookById(@PathVariable Long id) {
-//        bookService.deleteBookById(id);
-//        return ResponseEntity.ok().build();
-//    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteBookById(@PathVariable Long id) {
+        bookService.deleteBookById(id);
+        return ResponseEntity.ok().build();
+    }
 //
 //    @GetMapping("/name/{bookName}")
 //    public ResponseEntity<BookDto> getBookByName(@PathVariable String bookName) {
