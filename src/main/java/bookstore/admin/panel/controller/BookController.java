@@ -2,7 +2,6 @@ package bookstore.admin.panel.controller;
 
 import bookstore.admin.panel.model.dto.BookDto;
 import bookstore.admin.panel.service.BookService;
-import bookstore.admin.panel.model.dto.BookRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +14,8 @@ import java.util.List;
 public class BookController {
     private final BookService bookService;
     @PostMapping
-    public ResponseEntity<Void> addBook(@RequestBody BookRequestDto book ) {
-        bookService.addBook(book);
+    public ResponseEntity<Void> addBook(@RequestBody BookDto bookDto ) {
+        bookService.addBook(bookDto);
         return ResponseEntity.ok().build();
     }
     @GetMapping
@@ -30,8 +29,8 @@ public class BookController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateBook(@PathVariable Long id, @RequestBody BookRequestDto bookRequestDto) {
-        bookService.updateBook(id, bookRequestDto);
+    public ResponseEntity<Void> updateBook(@PathVariable Long id, @RequestBody BookDto bookDto) {
+        bookService.updateBook(id, bookDto);
         return ResponseEntity.ok().build();
 
     }
