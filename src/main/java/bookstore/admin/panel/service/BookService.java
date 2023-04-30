@@ -62,10 +62,6 @@ public class BookService {
 
     public BookDto getBookByName(String name) {
 
-//        List<Book> books = bookRepository.findAll();
-//        for (Book book : books) {
-//            if (Objects.equals(book.getName(), name)) return book;
-//        }
         return null;
     }
 
