@@ -8,6 +8,7 @@ import bookstore.admin.panel.model.dto.BookDto;
 import bookstore.admin.panel.dao.entity.Book;
 import bookstore.admin.panel.dao.repository.BookRepository;
 import bookstore.admin.panel.model.dto.BookRequestDto;
+import bookstore.admin.panel.model.enums.Language;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -60,9 +61,8 @@ public class BookService {
     }
 
 
-    public BookDto getBookByName(String name) {
-
-        return null;
+    public List<BookDto> getBookByName(String name) {
+        return mapper.toBookDtoList(bookRepository.getBooksByName(name));
     }
 
 
@@ -75,14 +75,7 @@ public class BookService {
     }
 
 
-    public List<BookDto> getBooksByLanguage(String language) {
-//        List<Book> books = bookRepository.findAll();
-//        List<Book> foundedBooks = new ArrayList<>();
-//        for (Book book : books) {
-//            if (Objects.equals(book.getLanguage(), language)) ;
-//            foundedBooks.add(book);
-//            return foundedBooks;
-//        }
-        return null;
-    }
+    public List<BookDto> getBooksByLanguage(Language language) {
+        return mapper.toBookDtoList(bookRepository.getBooksByLanguage(language));
+        }
 }
