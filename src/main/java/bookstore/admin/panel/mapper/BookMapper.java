@@ -2,13 +2,16 @@ package bookstore.admin.panel.mapper;
 
 import bookstore.admin.panel.dao.entity.Author;
 import bookstore.admin.panel.dao.entity.Book;
+import bookstore.admin.panel.dao.repository.AuthorRepository;
 import bookstore.admin.panel.model.dto.AuthorDto;
 import bookstore.admin.panel.model.dto.BookDto;
+
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class BookMapper {
+
     private BookMapper() {
     }
 
@@ -20,14 +23,11 @@ public class BookMapper {
         return Book.builder()
                 .name(bookDto.getBookName())
                 .language(bookDto.getLanguage())
-
                 .build();
     }
 
     public static BookDto toBookDto(Book book) {
-        return BookDto.builder().
-                authorDtoList(toAuthorDtoList(book.getAuthors()))
-                .bookName(book.getName()).build();
+        return BookDto.builder().bookName(book.getName()).language(book.getLanguage()).build();
     }
 
     public static List<BookDto> toBookDtoList(List<Book> books) {
