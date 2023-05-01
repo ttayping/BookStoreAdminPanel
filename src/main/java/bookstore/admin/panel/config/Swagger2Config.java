@@ -32,12 +32,12 @@ public class Swagger2Config {
     private ApiInfo metaData() {
         return new ApiInfoBuilder()
                 .title("Swagger Documentation API")
-                .description("Bank system")
+                .description("Book store system")
                 .version("1.0.0")
                 .contact(new Contact(
-                        "A bank system",
-                        "http://system.bank.com",
-                        "info@bank.com"))
+                        "A book store system",
+                        "http://system.bookstore.com",
+                        "---"))
                 .build();
     }
 }

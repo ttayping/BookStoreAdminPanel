@@ -20,7 +20,7 @@ public interface PublisherMapper {
 
     List<PublisherDto> toPublisherDtoList(List<Publisher> publishers);
 
-    Publisher toPublisher(PublisherDto publisherDto);
+    Publisher toPublisherEntity(PublisherDto publisherDto);
 
 
 }

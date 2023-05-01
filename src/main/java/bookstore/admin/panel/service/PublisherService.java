@@ -21,12 +21,12 @@ public class PublisherService {
 
     public void addPublisher(PublisherDto publisherDto) {
 
-        publisherRepository.save(mapper.toPublisher(publisherDto));
+        publisherRepository.save(mapper.toPublisherEntity(publisherDto));
     }
 
     public void updatePublisher(Long id, PublisherDto publisherDto) {
         Optional<Publisher> foundedPublisher = publisherRepository.findById(id);
-        Publisher publisher = mapper.toPublisher(publisherDto);
+        Publisher publisher = mapper.toPublisherEntity(publisherDto);
         if (foundedPublisher.isPresent()) {
             foundedPublisher.get().setName(publisher.getName());
             publisherRepository.save(foundedPublisher.get());
