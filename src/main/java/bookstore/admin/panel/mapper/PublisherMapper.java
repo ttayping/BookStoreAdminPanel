@@ -1,8 +1,8 @@
 package bookstore.admin.panel.mapper;
 
-import bookstore.admin.panel.dao.entity.Book;
+
 import bookstore.admin.panel.dao.entity.Publisher;
-import bookstore.admin.panel.model.dto.BookDto;
+
 import bookstore.admin.panel.model.dto.PublisherDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -14,13 +14,13 @@ import java.util.List;
 
 public interface PublisherMapper {
     PublisherMapper MAPPER_2 = Mappers.getMapper(PublisherMapper.class);
+
     @Mapping(target = "publisherName", source = "name")
-    PublisherDto toPublisherDto (Publisher publisher);
-    List<PublisherDto> toPublisherDtoList (List<Publisher> publishers);
-    @Mapping(target = "name", source = "publisherName")
+    PublisherDto toPublisherDto(Publisher publisher);
 
-    Publisher toPublisher (PublisherDto publisherDto);
+    List<PublisherDto> toPublisherDtoList(List<Publisher> publishers);
 
+    Publisher toPublisher(PublisherDto publisherDto);
 
 
 }

@@ -1,14 +1,13 @@
 package bookstore.admin.panel.controller;
 
-import bookstore.admin.panel.model.dto.BookRequestDto;
+
 import bookstore.admin.panel.model.dto.PublisherDto;
 import bookstore.admin.panel.service.PublisherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/publisher")
@@ -20,5 +19,24 @@ public class PublisherController {
     public ResponseEntity<Void> addPublisher(@RequestBody PublisherDto publisherDto ) {
         publisherService.addPublisher(publisherDto);
         return ResponseEntity.ok().build();
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updatePublisher (@PathVariable Long id, @RequestBody PublisherDto publisherDto){
+        publisherService.updatePublisher(id, publisherDto);
+        return ResponseEntity.ok().build();
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePublisherById(@PathVariable Long id){
+        publisherService.deletePublisherById(id);
+        return ResponseEntity.ok().build();
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<PublisherDto> getPublisherById (@PathVariable Long id){
+        return ResponseEntity.ok(publisherService.getPublisherById(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<PublisherDto>> getPublishers (){
+        return ResponseEntity.ok(publisherService.getAllPublishers());
     }
 }
