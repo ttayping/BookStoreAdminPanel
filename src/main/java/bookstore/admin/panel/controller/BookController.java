@@ -20,16 +20,17 @@ public class BookController {
 
     @PostMapping
     @ApiOperation("method for add new book to store")
-    public ResponseEntity<Void> addBook(@RequestBody BookDto bookDto ) {
+    public ResponseEntity<Void> addBook(@RequestBody BookDto bookDto) {
         bookService.addBook(bookDto);
         return ResponseEntity.ok().build();
     }
+
     @GetMapping
     @ApiOperation("method for get all books from store")
     public ResponseEntity<List<BookDto>> getAllBooks() {
         return ResponseEntity.ok(bookService.getAllBooks());
     }
- 
+
     @GetMapping("/{id}")
     public ResponseEntity<BookDto> getBookById(@PathVariable Long id) {
         return ResponseEntity.ok(bookService.getBookById(id));

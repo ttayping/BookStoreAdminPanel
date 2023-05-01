@@ -16,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BookDto {
+    private String id;
     private String bookName;
     private Language language;
     private BigDecimal price;

@@ -3,7 +3,6 @@ package bookstore.admin.panel.dao.entity;
 import bookstore.admin.panel.model.enums.Language;
 import javax.persistence.*;
 import lombok.*;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Currency;
