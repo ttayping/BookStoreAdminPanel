@@ -1,8 +1,8 @@
 package bookstore.admin.panel.dao.entity;
 
 import javax.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+
+import lombok.*;
 
 import java.util.List;
 
@@ -10,6 +10,9 @@ import java.util.List;
 @Table(name = "publisher")
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Publisher extends BaseEntity {
 
     @Column(name = "name", nullable = false)

@@ -1,16 +1,14 @@
 package bookstore.admin.panel.mapper;
 
 
-import bookstore.admin.panel.dao.entity.Author;
 import bookstore.admin.panel.dao.entity.Book;
-import bookstore.admin.panel.model.dto.AuthorDto;
+
 import bookstore.admin.panel.model.dto.BookDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
-import java.util.Optional;
 
 @Mapper(componentModel = "spring")
 public interface BookMapper2 {
@@ -19,4 +17,6 @@ public interface BookMapper2 {
     BookDto toBookDto(Book book);
 
     List<BookDto> toBookDtoList(List<Book> books);
+
+
 }
