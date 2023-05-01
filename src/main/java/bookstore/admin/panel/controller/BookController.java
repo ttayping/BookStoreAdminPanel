@@ -1,6 +1,7 @@
 package bookstore.admin.panel.controller;
 
 import bookstore.admin.panel.model.dto.BookDto;
+import bookstore.admin.panel.model.enums.Language;
 import bookstore.admin.panel.service.BookService;
 import bookstore.admin.panel.model.dto.BookRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -44,7 +45,7 @@ public class BookController {
     }
 
     @GetMapping("/name/{bookName}")
-    public ResponseEntity<BookDto> getBookByName(@PathVariable String bookName) {
+    public ResponseEntity<List<BookDto>> getBookByName(@PathVariable String bookName) {
         return ResponseEntity.ok(bookService.getBookByName(bookName));
     }
 
@@ -54,7 +55,7 @@ public class BookController {
     }
 
     @GetMapping("/language/{language}")
-    public ResponseEntity<List<BookDto>> getBooksByLanguage(@PathVariable String language) {
+    public ResponseEntity<List<BookDto>> getBooksByLanguage(@PathVariable Language language) {
         return ResponseEntity.ok(bookService.getBooksByLanguage(language));
     }
 
