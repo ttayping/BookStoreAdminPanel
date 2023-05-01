@@ -15,6 +15,7 @@ public class Review extends BaseEntity {
 
     @Column(name = "note", nullable = false)
     private String note;
+
     @ManyToOne
     @JoinColumn(name = "book_id")
     private Book book;

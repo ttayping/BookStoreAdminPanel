@@ -22,5 +22,6 @@ public interface PublisherMapper {
 
     Publisher toPublisherEntity(PublisherDto publisherDto);
 
-
+    @Mapping(target = "name", source = "publisherName")
+    Publisher toPublisher(PublisherDto publisherDto);
 }

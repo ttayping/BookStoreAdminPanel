@@ -2,17 +2,20 @@ package bookstore.admin.panel.service;
 
 import bookstore.admin.panel.dao.entity.Author;
 import bookstore.admin.panel.dao.repository.AuthorRepository;
+import bookstore.admin.panel.exception.BadRequestException;
+import bookstore.admin.panel.exception.Error;
+import bookstore.admin.panel.exception.NotFoundException;
 import bookstore.admin.panel.mapper.BookMapper;
 import bookstore.admin.panel.mapper.BookMapper2;
 import bookstore.admin.panel.model.dto.BookDto;
 import bookstore.admin.panel.dao.entity.Book;
 import bookstore.admin.panel.dao.repository.BookRepository;
 
-import bookstore.admin.panel.model.dto.BookRequestDto;
 import bookstore.admin.panel.model.enums.Language;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +34,8 @@ public class BookService {
         if (!authors.isEmpty()) {
             book.setAuthors(authors);
         }
+        //  CollectionUtils.isEmpty()
+
         bookRepository.save(book);
     }
 
@@ -41,7 +46,10 @@ public class BookService {
 
 
     public BookDto getBookById(Long id) {
-    return  mapper.toBookDto(bookRepository.findById(id).get());
+        Book book = bookRepository.findById(id).orElseThrow(
+                () -> new BadRequestException(Error.BOOK_NOT_FOUND_ERROR_CODE,
+                        Error.BOOK_NOT_FOUND_ERROR_MESSAGE));
+        return mapper.toBookDto(book);
     }
 
     public void updateBook(Long id, BookDto bookDto) {
@@ -77,5 +85,5 @@ public class BookService {
 
     public List<BookDto> getBooksByLanguage(Language language) {
         return mapper.toBookDtoList(bookRepository.getBooksByLanguage(language));
-        }
+    }
 }

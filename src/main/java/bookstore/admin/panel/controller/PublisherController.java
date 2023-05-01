@@ -20,11 +20,14 @@ public class PublisherController {
         publisherService.addPublisher(publisherDto);
         return ResponseEntity.ok().build();
     }
+
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updatePublisher (@PathVariable Long id, @RequestBody PublisherDto publisherDto){
+    public ResponseEntity<Void> updatePublisher (@PathVariable Long id,
+                                                 @RequestBody PublisherDto publisherDto){
         publisherService.updatePublisher(id, publisherDto);
         return ResponseEntity.ok().build();
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePublisherById(@PathVariable Long id){
         publisherService.deletePublisherById(id);
