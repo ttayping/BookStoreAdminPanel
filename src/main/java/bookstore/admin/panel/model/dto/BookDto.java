@@ -22,5 +22,5 @@ public class BookDto {
     private Currency currency;
     private LocalDate publicationDate;
     private String description;
-    private List<AuthorDto> authorDtoList;
+    private List<Long> authorIdList;
 }

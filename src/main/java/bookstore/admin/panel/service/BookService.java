@@ -7,14 +7,14 @@ import bookstore.admin.panel.mapper.BookMapper2;
 import bookstore.admin.panel.model.dto.BookDto;
 import bookstore.admin.panel.dao.entity.Book;
 import bookstore.admin.panel.dao.repository.BookRepository;
+
 import bookstore.admin.panel.model.dto.BookRequestDto;
 import bookstore.admin.panel.model.enums.Language;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -25,9 +25,9 @@ public class BookService {
     private static final BookMapper2 mapper = BookMapper2.MAPPER_2;
 
 
-    public void addBook(BookRequestDto bookRequestDto) {
-        Book book = BookMapper.toBook(bookRequestDto);
-        List<Author> authors = authorRepository.findAllByIdIn(bookRequestDto.getAuthorIdList());
+    public void addBook(BookDto bookDto) {
+        Book book = BookMapper.toBook(bookDto);
+        List<Author> authors = authorRepository.findAllByIdIn(bookDto.getAuthorIdList());
         if (!authors.isEmpty()) {
             book.setAuthors(authors);
         }
@@ -44,13 +44,13 @@ public class BookService {
     return  mapper.toBookDto(bookRepository.findById(id).get());
     }
 
-    public void updateBook(Long id, BookRequestDto bookRequestDto) {
+    public void updateBook(Long id, BookDto bookDto) {
         Optional<Book> resultBook = bookRepository.findById(id);
-        Book book = BookMapper.toBook(bookRequestDto);
+        Book book = BookMapper.toBook(bookDto);
         if (resultBook.isPresent()) {
             resultBook.get().setName(book.getName());
             resultBook.get().setLanguage(book.getLanguage());
-            resultBook.get().setAuthors(authorRepository.findAllByIdIn(bookRequestDto.getAuthorIdList()));
+            resultBook.get().setAuthors(authorRepository.findAllByIdIn(bookDto.getAuthorIdList()));
             bookRepository.save(resultBook.get());
         }
     }
