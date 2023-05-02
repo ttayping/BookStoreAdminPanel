@@ -40,7 +40,6 @@ public class BookController {
     public ResponseEntity<Void> updateBook(@PathVariable Long id, @RequestBody BookDto bookDto) {
         bookService.updateBook(id, bookDto);
         return ResponseEntity.ok().build();
-
     }
 
 
@@ -68,6 +67,18 @@ public class BookController {
     @GetMapping("/language/{language}")
     public ResponseEntity<List<BookDto>> getBooksByLanguage(@PathVariable Language language) {
         return ResponseEntity.ok(bookService.getBooksByLanguage(language));
+    }
+
+
+    @GetMapping ("/stock/{id}")
+    ResponseEntity<Integer> getStockByBookId (@PathVariable Long id){
+        return ResponseEntity.ok(bookService.getStickByBookId(id));
+    }
+
+    @PutMapping("/add-stock/{id}")
+    ResponseEntity<Void> addStockByBookId(@PathVariable Long id, @RequestBody Integer newStock){
+        bookService.addStockByBookId(id, newStock);
+        return ResponseEntity.ok().build();
     }
 
 }

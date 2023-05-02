@@ -24,6 +24,8 @@ public class Book extends BaseEntity {
     @Column(name = "language")
     private Language language;
 
+    private Integer stock;
+
     @Column(name = "price")
     private BigDecimal price;
 

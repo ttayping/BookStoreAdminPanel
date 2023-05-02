@@ -28,7 +28,7 @@ public class AuthorController {
 
     @PostMapping
     public ResponseEntity<Void> addAuthor(@RequestBody AuthorDto authorDto) {
-         authorService.addAuthor(authorDto);
+        authorService.addAuthor(authorDto);
         return ResponseEntity.ok().build();
     }
 

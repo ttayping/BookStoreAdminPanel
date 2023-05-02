@@ -18,6 +18,7 @@ import java.util.List;
 public class BookDto {
     private String id;
     private String bookName;
+    private Integer stock;
     private Language language;
     private BigDecimal price;
     private Currency currency;

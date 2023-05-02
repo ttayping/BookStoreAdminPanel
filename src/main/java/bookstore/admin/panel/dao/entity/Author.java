@@ -1,6 +1,7 @@
 package bookstore.admin.panel.dao.entity;
 
 import javax.persistence.*;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +11,7 @@ import java.util.List;
 @Table(name = "author")
 @Getter
 @Setter
-public class Author extends BaseEntity{
+public class Author extends BaseEntity {
 
     @Column(name = "name", nullable = false, unique = true)
     private String name;

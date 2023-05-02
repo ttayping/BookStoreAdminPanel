@@ -2,11 +2,11 @@ package bookstore.admin.panel.service;
 
 import bookstore.admin.panel.dao.entity.Author;
 import bookstore.admin.panel.dao.entity.Publisher;
-import bookstore.admin.panel.dao.entity.Review;
 import bookstore.admin.panel.dao.repository.AuthorRepository;
 import bookstore.admin.panel.dao.repository.PublisherRepository;
 import bookstore.admin.panel.exception.BadRequestException;
 import bookstore.admin.panel.exception.Error;
+import bookstore.admin.panel.exception.NotFoundException;
 import bookstore.admin.panel.mapper.UniversalMapper;
 import bookstore.admin.panel.model.dto.BookDto;
 import bookstore.admin.panel.dao.entity.Book;
@@ -82,13 +82,6 @@ public class BookService {
         return books;
     }
 
-//    public List<BookDto> getBooksByAuthorId (List<Long> idList){
-//        List<Author> authors = authorRepository.findAllByIdIn(idList);
-//        List<Book> books=bookRepository.getBooksByAuthors(authors);
-//        return mapper.toBookDtoList(books);
-//    }
-
-
     public List<BookDto> getBooksByLanguage(Language language) {
         return mapper.toBookDtoList(bookRepository.getBooksByLanguage(language));
     }
@@ -100,5 +93,17 @@ public class BookService {
         }
         return books;
 
+    }
+
+    public Integer getStickByBookId(Long id) {
+        Book book = bookRepository.findById(id).orElseThrow(()
+                ->new NotFoundException("code 404", "book not found"));
+        return book.getStock();
+    }
+
+    public void addStockByBookId(Long id, Integer newStock) {
+        Book book = bookRepository.findById(id).orElseThrow(()
+                ->new NotFoundException("code 404", "book not found"));
+        book.setStock(book.getStock()+newStock);
     }
 }
