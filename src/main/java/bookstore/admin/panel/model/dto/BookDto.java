@@ -1,5 +1,6 @@
 package bookstore.admin.panel.model.dto;
 
+import bookstore.admin.panel.model.enums.Currency;
 import bookstore.admin.panel.model.enums.Language;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,7 +9,6 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Currency;
 import java.util.List;
 
 @Builder
@@ -16,7 +16,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BookDto {
-    private String id;
     private String bookName;
     private Language language;
     private BigDecimal price;

@@ -4,16 +4,13 @@ import bookstore.admin.panel.dao.entity.Book;
 import bookstore.admin.panel.model.enums.Language;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Collection;
 import java.util.List;
 
-public interface BookRepository extends JpaRepository<Book,Long> {
+public interface BookRepository extends JpaRepository<Book, Long> {
     List<Book> getBooksByName(String name);
-    List <Book> getBooksByLanguage(Language language);
-    List<Book> findAllByIdIn(List<Long> idList);
 
-    Book findBookByName (String name);
+    List<Book> getBooksByLanguage(Language language);
 
-
-    //List<Book> findBooksByAuthors(List<Author>authors);
-
+    List<Book> findAllByIdIn(List<Long> id);
 }

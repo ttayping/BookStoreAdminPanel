@@ -1,6 +1,7 @@
 package bookstore.admin.panel.dao.entity;
 
 import javax.persistence.*;
+
 import lombok.Getter;
 import lombok.Setter;
 

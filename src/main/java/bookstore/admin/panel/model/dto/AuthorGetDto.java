@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthorGetDto {
+
     private String authorName;
     private List<Book> bookList;
 }

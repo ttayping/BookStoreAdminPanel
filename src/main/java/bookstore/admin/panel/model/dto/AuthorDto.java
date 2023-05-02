@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthorDto {
+
     private String authorName;
     private List<Long> bookIdList;
-
 }

@@ -2,7 +2,6 @@ package bookstore.admin.panel.service;
 
 import bookstore.admin.panel.dao.entity.Author;
 import bookstore.admin.panel.dao.entity.Publisher;
-import bookstore.admin.panel.dao.entity.Review;
 import bookstore.admin.panel.dao.repository.AuthorRepository;
 import bookstore.admin.panel.dao.repository.PublisherRepository;
 import bookstore.admin.panel.exception.BadRequestException;
@@ -29,7 +28,6 @@ public class BookService {
     private final PublisherRepository publisherRepository;
     private static final UniversalMapper mapper = UniversalMapper.MAPPER;
 
-
     public void addBook(BookDto bookDto) {
         Book book = mapper.toBookEntity(bookDto);
         List<Author> authors = authorRepository.findAllByIdIn(bookDto.getAuthorIdList());
@@ -39,11 +37,9 @@ public class BookService {
         bookRepository.save(book);
     }
 
-
     public List<BookDto> getAllBooks() {
         return mapper.toBookDtoList(bookRepository.findAll());
     }
-
 
     public BookDto getBookById(Long id) {
         Book book = bookRepository.findById(id).orElseThrow(
@@ -63,42 +59,31 @@ public class BookService {
         }
     }
 
-
     public void deleteBookById(Long id) {
         bookRepository.deleteById(id);
     }
-
 
     public List<BookDto> getBookByName(String name) {
         return mapper.toBookDtoList(bookRepository.getBooksByName(name));
     }
 
-
     public List<List<BookDto>> getBooksByAuthorName(String authorName) {
-        List<List<BookDto>> books =new ArrayList<>();
-        for (Author author :authorRepository.findAuthorByName(authorName)) {
+        List<List<BookDto>> books = new ArrayList<>();
+        for (Author author : authorRepository.findAuthorByName(authorName)) {
             books.add(mapper.toBookDtoList(author.getBooks()));
         }
         return books;
     }
-
-//    public List<BookDto> getBooksByAuthorId (List<Long> idList){
-//        List<Author> authors = authorRepository.findAllByIdIn(idList);
-//        List<Book> books=bookRepository.getBooksByAuthors(authors);
-//        return mapper.toBookDtoList(books);
-//    }
-
 
     public List<BookDto> getBooksByLanguage(Language language) {
         return mapper.toBookDtoList(bookRepository.getBooksByLanguage(language));
     }
 
     public List<List<BookDto>> getBooksByPublisherName(String publisherName) {
-        List<List<BookDto>> books =new ArrayList<>();
-        for (Publisher publisher :publisherRepository.findPublisherByName(publisherName)) {
+        List<List<BookDto>> books = new ArrayList<>();
+        for (Publisher publisher : publisherRepository.findPublisherByName(publisherName)) {
             books.add(mapper.toBookDtoList(publisher.getBooks()));
         }
         return books;
-
     }
 }

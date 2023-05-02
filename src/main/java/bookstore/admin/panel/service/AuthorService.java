@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class AuthorService {
@@ -26,7 +26,7 @@ public class AuthorService {
 
     public AuthorGetDto getAuthorById(Long id) {
         Author foundAuthor = authorRepository.findById(id).orElseThrow(()
-                -> new NotFoundException("404","book didn't found which you search. Please, change search parameters"));
+                -> new NotFoundException("404", "book didn't found which you search. Please, change search parameters"));
         return mapper.toAuthorGetDto(foundAuthor);
     }
 
@@ -34,8 +34,7 @@ public class AuthorService {
         Author author = mapper.toAuthorEntity(authorDto);
         author.setBooks(bookRepository.findAllByIdIn(authorDto.getBookIdList()));
         System.out.println(author.getBooks());
-        System.out.println("sassa");
-         authorRepository.save(author);
+        authorRepository.save(author);
     }
 
     public void deleteAuthorById(Long id) {
@@ -43,12 +42,11 @@ public class AuthorService {
     }
 
     public void updateAuthor(Long id, AuthorDto authorDto) {
-        Optional<Author> resultAuthor = authorRepository.findById(id);
-        if(resultAuthor.isPresent()){
-            resultAuthor.get().setId(id);
-            resultAuthor.get().setName(authorDto.getAuthorName());
-            resultAuthor.get().setBooks(bookRepository.findAllByIdIn(authorDto.getBookIdList()));
-        }
-        authorRepository.save(resultAuthor.get());
+        Author author = authorRepository.findById(id).orElseThrow(
+                () -> new NotFoundException("code404", "author didnt found. Please change search parameters"));
+        author.setId(id);
+        author.setName(authorDto.getAuthorName());
+        author.setBooks(bookRepository.findAllByIdIn(authorDto.getBookIdList()));
+        authorRepository.save(author);
     }
 }
