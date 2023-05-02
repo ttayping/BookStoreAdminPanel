@@ -4,10 +4,8 @@ package bookstore.admin.panel.mapper;
 import bookstore.admin.panel.dao.entity.Author;
 import bookstore.admin.panel.dao.entity.Book;
 import bookstore.admin.panel.dao.entity.Publisher;
-import bookstore.admin.panel.model.dto.AuthorDto;
-import bookstore.admin.panel.model.dto.AuthorGetDto;
-import bookstore.admin.panel.model.dto.BookDto;
-import bookstore.admin.panel.model.dto.PublisherDto;
+import bookstore.admin.panel.dao.entity.Review;
+import bookstore.admin.panel.model.dto.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -48,5 +46,9 @@ public interface UniversalMapper {
     @Mapping(target = "bookList", source = "books")
     AuthorGetDto toAuthorGetDto (Author author);
     List<AuthorGetDto> toAuthorGetDtoList (List<Author> authors);
+    @Mapping(target = "reviewerName", source = "reviewer")
+    @Mapping(target = "reviewNote", source = "note")
+    List<ReviewDto> toReviewDtoList(List<Review> all);
 
+    ReviewDto toReviewDto(Review review);
 }
