@@ -46,9 +46,9 @@ public interface UniversalMapper {
     @Mapping(target = "bookList", source = "books")
     AuthorGetDto toAuthorGetDto (Author author);
     List<AuthorGetDto> toAuthorGetDtoList (List<Author> authors);
+
+    List<ReviewDto> toReviewDtoList(List<Review> all);
     @Mapping(target = "reviewerName", source = "reviewer")
     @Mapping(target = "reviewNote", source = "note")
-    List<ReviewDto> toReviewDtoList(List<Review> all);
-
     ReviewDto toReviewDto(Review review);
 }

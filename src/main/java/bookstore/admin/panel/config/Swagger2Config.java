@@ -36,7 +36,7 @@ public class Swagger2Config {
                 .version("1.0.0")
                 .contact(new Contact(
                         "A book store system",
-                        "http://system.bookstore.com",
+                        "https://system.bookstore.com",
                         "---"))
                 .build();
     }
