@@ -8,8 +8,8 @@ spring:
       ddlAuto: update
 
   datasource:
-    url: jdbc:mysql://localhost:3306/book_store
+    url: jdbc:mysql://localhost:3306/bookstore
     username: root
-    password: 1312acab
+    password: admin
     driverClassName: com.mysql.cj.jdbc.Driver
 

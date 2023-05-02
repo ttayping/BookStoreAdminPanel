@@ -30,7 +30,7 @@ public class ReviewService {
         return mapper.toReviewDto(review);
     }
     public List<ReviewDto> getAllReviewsByBook(String bookName) {
-        Book book = bookRepository.findBookByName(bookName);
-        return mapper.toReviewDtoList(reviewRepository.findAllByBook(book));
+//        Book book = bookRepository.findBookByName(bookName);
+        return mapper.toReviewDtoList(reviewRepository.findByBookName(bookName));
     }
 }
