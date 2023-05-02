@@ -15,6 +15,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class Book extends BaseEntity {
 
     @Column(name = "name", nullable = false, unique = true)

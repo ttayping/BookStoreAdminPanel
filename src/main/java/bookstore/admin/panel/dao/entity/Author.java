@@ -12,7 +12,7 @@ import java.util.List;
 @Setter
 public class Author extends BaseEntity{
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
     @ManyToMany(mappedBy = "authors")

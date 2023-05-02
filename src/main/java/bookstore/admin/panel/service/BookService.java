@@ -4,9 +4,7 @@ import bookstore.admin.panel.dao.entity.Author;
 import bookstore.admin.panel.dao.repository.AuthorRepository;
 import bookstore.admin.panel.exception.BadRequestException;
 import bookstore.admin.panel.exception.Error;
-import bookstore.admin.panel.exception.NotFoundException;
-import bookstore.admin.panel.mapper.BookMapper;
-import bookstore.admin.panel.mapper.BookMapper2;
+import bookstore.admin.panel.mapper.UniversalMapper;
 import bookstore.admin.panel.model.dto.BookDto;
 import bookstore.admin.panel.dao.entity.Book;
 import bookstore.admin.panel.dao.repository.BookRepository;
@@ -15,7 +13,6 @@ import bookstore.admin.panel.model.enums.Language;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,23 +22,21 @@ import java.util.Optional;
 public class BookService {
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
-    private static final BookMapper2 mapper = BookMapper2.MAPPER_2;
+    private static final UniversalMapper mapper = UniversalMapper.MAPPER;
 
 
     public void addBook(BookDto bookDto) {
-        Book book = BookMapper.toBook(bookDto);
+        Book book = mapper.toBookEntity(bookDto);
         List<Author> authors = authorRepository.findAllByIdIn(bookDto.getAuthorIdList());
         if (!authors.isEmpty()) {
             book.setAuthors(authors);
         }
-        //  CollectionUtils.isEmpty()
-
         bookRepository.save(book);
     }
 
 
     public List<BookDto> getAllBooks() {
-        return BookMapper.toBookDtoList(bookRepository.findAll());
+        return mapper.toBookDtoList(bookRepository.findAll());
     }
 
 
@@ -54,7 +49,7 @@ public class BookService {
 
     public void updateBook(Long id, BookDto bookDto) {
         Optional<Book> resultBook = bookRepository.findById(id);
-        Book book = BookMapper.toBook(bookDto);
+        Book book = mapper.toBookEntity(bookDto);
         if (resultBook.isPresent()) {
             resultBook.get().setName(book.getName());
             resultBook.get().setLanguage(book.getLanguage());
@@ -74,13 +69,20 @@ public class BookService {
     }
 
 
-    public BookDto getBookByAuthor(String authorName) {
-//        List<Book> books = bookRepository.findAll();
-//        for (Book book : books) {
-//            if (Objects.equals(book.getAuthors(), authorName)) return book; // not finished
-//        }
+    public List<BookDto> getBooksByAuthor(String authorName) {
         return null;
+//        Author author = authorRepository.findByName(authorName);
+//        List<Author> authors = new ArrayList<>();
+//        authors.add(author);
+//        List<Book> books=bookRepository.findBooksByAuthors(authors);
+//        return mapper.toBookDtoList(books);
     }
+
+//    public List<BookDto> getBooksByAuthorId (List<Long> idList){
+//        List<Author> authors = authorRepository.findAllByIdIn(idList);
+//        List<Book> books=bookRepository.getBooksByAuthors(authors);
+//        return mapper.toBookDtoList(books);
+//    }
 
 
     public List<BookDto> getBooksByLanguage(Language language) {

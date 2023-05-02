@@ -1,12 +1,13 @@
 package bookstore.admin.panel.controller;
 
-import bookstore.admin.panel.dao.entity.Author;
+import bookstore.admin.panel.model.dto.AuthorDto;
+import bookstore.admin.panel.model.dto.AuthorGetDto;
 import bookstore.admin.panel.service.AuthorService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/author")
@@ -16,28 +17,31 @@ public class AuthorController {
     private final AuthorService authorService;
 
     @GetMapping
-    public List<Author> getAllAuthors() {
-        return authorService.getAllAuthors();
+    public ResponseEntity<List<AuthorGetDto>> getAllAuthors() {
+        return ResponseEntity.ok(authorService.getAllAuthors());
     }
 
     @GetMapping("/{id}")
-    public Optional<Author> getAuthorById(@PathVariable Long id) {
-        return authorService.getAuthorById(id);
+    public ResponseEntity<AuthorGetDto> getAuthorById(@PathVariable Long id) {
+        return ResponseEntity.ok(authorService.getAuthorById(id));
     }
 
     @PostMapping
-    public Author addAuthor(@RequestBody Author author) {
-        return authorService.addAuthor(author);
+    public ResponseEntity<Void> addAuthor(@RequestBody AuthorDto authorDto) {
+         authorService.addAuthor(authorDto);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
-    public void deleteAuthorById(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteAuthorById(@PathVariable Long id) {
         authorService.deleteAuthorById(id);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{id}")
-    public Author updateAuthor(@PathVariable Long id, @RequestBody Author author) {
-        return authorService.updateAuthor(id, author);
+    public ResponseEntity<Void> updateAuthor(@PathVariable Long id, @RequestBody AuthorDto authorDto) {
+        authorService.updateAuthor(id, authorDto);
+        return ResponseEntity.ok().build();
 
     }
 }

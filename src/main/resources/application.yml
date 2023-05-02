@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8080
 
 
 spring:
@@ -10,6 +10,6 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/book_store
     username: root
-    password: admin
+    password: 1312acab
     driverClassName: com.mysql.cj.jdbc.Driver
 
