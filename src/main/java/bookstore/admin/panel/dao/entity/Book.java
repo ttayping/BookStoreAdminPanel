@@ -1,11 +1,14 @@
 package bookstore.admin.panel.dao.entity;
 
+import bookstore.admin.panel.model.enums.Currency;
 import bookstore.admin.panel.model.enums.Language;
+
 import javax.persistence.*;
+
 import lombok.*;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Currency;
 import java.util.List;
 
 @Entity
@@ -30,7 +33,7 @@ public class Book extends BaseEntity {
     @Column(name = "currency")
     private Currency currency;
 
-    @Column(name = "publicationDate")
+    @Column(name = "publication_date")
     private LocalDate publicationDate;
 
     @Column(name = "description")

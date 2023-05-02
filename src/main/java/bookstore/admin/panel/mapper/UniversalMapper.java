@@ -22,32 +22,30 @@ public interface UniversalMapper {
     List<BookDto> toBookDtoList(List<Book> books);
 
     @Mapping(target = "name", source = "bookName")
-    Book toBookEntity (BookDto bookDto);
+    Book toBookEntity(BookDto bookDto);
 
     @Mapping(target = "publisherName", source = "name")
     PublisherDto toPublisherDto(Publisher publisher);
 
     List<PublisherDto> toPublisherDtoList(List<Publisher> publishers);
+
     @Mapping(target = "name", source = "publisherName")
     Publisher toPublisherEntity(PublisherDto publisherDto);
-    List <Publisher> toPublisherList (List<Publisher> publishers);
-
 
     @Mapping(target = "authorName", source = "name")
     AuthorDto toAuthorDto(Author author);
-    List<AuthorDto> toAuthorDtoList(List<Author> all);
 
     @Mapping(target = "name", source = "authorName")
     Author toAuthorEntity(AuthorDto authorDto);
 
-    List<Author> toAuthorList(List<AuthorDto> all);
-
     @Mapping(target = "authorName", source = "name")
     @Mapping(target = "bookList", source = "books")
-    AuthorGetDto toAuthorGetDto (Author author);
-    List<AuthorGetDto> toAuthorGetDtoList (List<Author> authors);
+    AuthorGetDto toAuthorGetDto(Author author);
+
+    List<AuthorGetDto> toAuthorGetDtoList(List<Author> authors);
 
     List<ReviewDto> toReviewDtoList(List<Review> all);
+
     @Mapping(target = "reviewerName", source = "reviewer")
     @Mapping(target = "reviewNote", source = "note")
     ReviewDto toReviewDto(Review review);

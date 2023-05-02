@@ -8,7 +8,6 @@ import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;

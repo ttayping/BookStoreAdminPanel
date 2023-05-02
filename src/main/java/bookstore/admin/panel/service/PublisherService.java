@@ -15,6 +15,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class PublisherService {
+
     private final PublisherRepository publisherRepository;
     private static final UniversalMapper mapper = UniversalMapper.MAPPER;
 
@@ -40,8 +41,7 @@ public class PublisherService {
         return mapper.toPublisherDtoList(publisherRepository.findAll());
     }
 
-    public PublisherDto getPublisherById (Long id){
+    public PublisherDto getPublisherById(Long id) {
         return mapper.toPublisherDto(publisherRepository.getById(id));
     }
-
 }
