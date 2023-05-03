@@ -3,6 +3,7 @@ package bookstore.admin.panel.service;
 import bookstore.admin.panel.dao.entity.Author;
 import bookstore.admin.panel.dao.repository.AuthorRepository;
 import bookstore.admin.panel.dao.repository.BookRepository;
+import bookstore.admin.panel.exception.Error;
 import bookstore.admin.panel.exception.NotFoundException;
 import bookstore.admin.panel.mapper.UniversalMapper;
 import bookstore.admin.panel.model.dto.AuthorDto;
@@ -26,7 +27,8 @@ public class AuthorService {
 
     public AuthorGetDto getAuthorById(Long id) {
         Author foundAuthor = authorRepository.findById(id).orElseThrow(()
-                -> new NotFoundException("404", "book didn't found which you search. Please, change search parameters"));
+                -> new NotFoundException(Error.BOOK_NOT_FOUND_ERROR_CODE,
+                Error.BOOK_NOT_FOUND_ERROR_MESSAGE));
         return mapper.toAuthorGetDto(foundAuthor);
     }
 
@@ -38,13 +40,16 @@ public class AuthorService {
     }
 
     public void deleteAuthorById(Long id) {
+        authorRepository.findById(id).orElseThrow(
+                ()-> new NotFoundException(Error.BOOK_NOT_FOUND_ERROR_CODE,
+                Error.BOOK_NOT_FOUND_ERROR_MESSAGE));
         authorRepository.deleteById(id);
     }
 
     public void updateAuthor(Long id, AuthorDto authorDto) {
         Author author = authorRepository.findById(id).orElseThrow(
-                () -> new NotFoundException("code404", "author didnt found. Please change search parameters"));
-        //   author.setId(id);
+                () -> new NotFoundException(Error.BOOK_NOT_FOUND_ERROR_CODE,
+                        Error.BOOK_NOT_FOUND_ERROR_MESSAGE));
         author.setName(authorDto.getAuthorName());
         author.setBooks(bookRepository.findAllByIdIn(authorDto.getBookIdList()));
         authorRepository.save(author);

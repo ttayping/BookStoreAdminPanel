@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -50,17 +49,19 @@ public class BookService {
     }
 
     public void updateBook(Long id, BookDto bookDto) {
-        Optional<Book> resultBook = bookRepository.findById(id);
-        Book book = mapper.toBookEntity(bookDto);
-        if (resultBook.isPresent()) {
-            resultBook.get().setName(book.getName());
-            resultBook.get().setLanguage(book.getLanguage());
-            resultBook.get().setAuthors(authorRepository.findAllByIdIn(bookDto.getAuthorIdList()));
-            bookRepository.save(resultBook.get());
-        }
+        Book book = bookRepository.findById(id).orElseThrow(
+                () -> new NotFoundException(Error.BOOK_NOT_FOUND_ERROR_CODE,
+                        Error.BOOK_NOT_FOUND_ERROR_MESSAGE));
+        book.setName(bookDto.getBookName());
+        book.setLanguage(book.getLanguage());
+        book.setAuthors(authorRepository.findAllByIdIn(bookDto.getAuthorIdList()));
+        bookRepository.save(book);
     }
 
     public void deleteBookById(Long id) {
+        bookRepository.findById(id).orElseThrow(
+                () -> new NotFoundException(Error.BOOK_NOT_FOUND_ERROR_CODE,
+                        Error.BOOK_NOT_FOUND_ERROR_MESSAGE));
         bookRepository.deleteById(id);
     }
 
@@ -90,14 +91,16 @@ public class BookService {
 
     public Integer getStockByBookId(Long id) {
         Book book = bookRepository.findById(id).orElseThrow(()
-                ->new NotFoundException("code 404", "book not found"));
+                -> new NotFoundException(Error.BOOK_NOT_FOUND_ERROR_CODE,
+                Error.BOOK_NOT_FOUND_ERROR_MESSAGE));
         return book.getStock();
     }
 
     public void addStockByBookId(Long id, Integer newStock) {
         Book book = bookRepository.findById(id).orElseThrow(()
-                ->new NotFoundException("code 404", "book not found"));
-        book.setStock(book.getStock()+newStock);
+                -> new NotFoundException(Error.BOOK_NOT_FOUND_ERROR_CODE,
+                Error.BOOK_NOT_FOUND_ERROR_MESSAGE));
+        book.setStock(book.getStock() + newStock);
         bookRepository.save(book);
     }
 }

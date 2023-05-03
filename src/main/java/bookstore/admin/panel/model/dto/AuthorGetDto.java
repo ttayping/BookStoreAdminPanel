@@ -1,6 +1,5 @@
 package bookstore.admin.panel.model.dto;
 
-import bookstore.admin.panel.dao.entity.Book;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,5 +14,5 @@ import java.util.List;
 public class AuthorGetDto {
 
     private String authorName;
-    private List<Book> bookList;
+    private List<BookGetDto> bookGetDtoList;
 }

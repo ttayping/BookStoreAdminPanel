@@ -21,6 +21,11 @@ public interface UniversalMapper {
 
     List<BookDto> toBookDtoList(List<Book> books);
 
+    @Mapping(target = "bookGetName", source = "name")
+    BookGetDto toBookGetDto(Book book);
+
+    List<BookGetDto> toBookGetDtoList(List<Book> books);
+
     @Mapping(target = "name", source = "bookName")
     Book toBookEntity(BookDto bookDto);
 
@@ -32,14 +37,11 @@ public interface UniversalMapper {
     @Mapping(target = "name", source = "publisherName")
     Publisher toPublisherEntity(PublisherDto publisherDto);
 
-    @Mapping(target = "authorName", source = "name")
-    AuthorDto toAuthorDto(Author author);
-
     @Mapping(target = "name", source = "authorName")
     Author toAuthorEntity(AuthorDto authorDto);
 
     @Mapping(target = "authorName", source = "name")
-    @Mapping(target = "bookList", source = "books")
+    @Mapping(target = "bookGetDtoList", source = "books")
     AuthorGetDto toAuthorGetDto(Author author);
 
     List<AuthorGetDto> toAuthorGetDtoList(List<Author> authors);
