@@ -25,4 +25,5 @@ public class BookDto {
     private LocalDate publicationDate;
     private String description;
     private List<Long> authorIdList;
+    private List <Long> publisherIdList;
 }

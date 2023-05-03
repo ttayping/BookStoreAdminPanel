@@ -34,6 +34,10 @@ public class BookService {
         if (!authors.isEmpty()) {
             book.setAuthors(authors);
         }
+        List<Publisher> publishers = publisherRepository.findAllByIdIn(bookDto.getPublisherIdList());
+        if (!publishers.isEmpty()){
+            book.setPublishers(publishers);
+        }
         bookRepository.save(book);
     }
 
@@ -55,6 +59,7 @@ public class BookService {
         book.setName(bookDto.getBookName());
         book.setLanguage(book.getLanguage());
         book.setAuthors(authorRepository.findAllByIdIn(bookDto.getAuthorIdList()));
+        book.setPublishers(publisherRepository.findAllByIdIn(bookDto.getPublisherIdList()));
         bookRepository.save(book);
     }
 
