@@ -42,6 +42,5 @@ public class AuthorController {
     public ResponseEntity<Void> updateAuthor(@PathVariable Long id, @RequestBody AuthorDto authorDto) {
         authorService.updateAuthor(id, authorDto);
         return ResponseEntity.ok().build();
-
     }
 }

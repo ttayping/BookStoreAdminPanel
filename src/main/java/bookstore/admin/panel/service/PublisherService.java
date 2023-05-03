@@ -4,13 +4,14 @@ package bookstore.admin.panel.service;
 import bookstore.admin.panel.dao.entity.Publisher;
 import bookstore.admin.panel.dao.repository.PublisherRepository;
 
+import bookstore.admin.panel.exception.BadRequestException;
+import bookstore.admin.panel.exception.Error;
 import bookstore.admin.panel.mapper.UniversalMapper;
 import bookstore.admin.panel.model.dto.PublisherDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,15 +26,18 @@ public class PublisherService {
     }
 
     public void updatePublisher(Long id, PublisherDto publisherDto) {
-        Optional<Publisher> foundedPublisher = publisherRepository.findById(id);
+        Publisher foundedPublisher = publisherRepository.findById(id).orElseThrow(
+                () -> new BadRequestException(Error.BOOK_NOT_FOUND_ERROR_CODE,
+                Error.BOOK_NOT_FOUND_ERROR_MESSAGE));
         Publisher publisher = mapper.toPublisherEntity(publisherDto);
-        if (foundedPublisher.isPresent()) {
-            foundedPublisher.get().setName(publisher.getName());
-            publisherRepository.save(foundedPublisher.get());
-        }
-    }
+        foundedPublisher.setName(publisher.getName());
+        publisherRepository.save(foundedPublisher);
+}
 
     public void deletePublisherById(Long id) {
+        publisherRepository.findById(id).orElseThrow(()
+                -> new BadRequestException(Error.BOOK_NOT_FOUND_ERROR_CODE,
+                        Error.BOOK_NOT_FOUND_ERROR_MESSAGE));
         publisherRepository.deleteById(id);
     }
 
@@ -42,6 +46,8 @@ public class PublisherService {
     }
 
     public PublisherDto getPublisherById(Long id) {
-        return mapper.toPublisherDto(publisherRepository.getById(id));
+        return mapper.toPublisherDto(publisherRepository.findById(id).orElseThrow(
+                () -> new BadRequestException(Error.BOOK_NOT_FOUND_ERROR_CODE,
+                Error.BOOK_NOT_FOUND_ERROR_MESSAGE)));
     }
 }
