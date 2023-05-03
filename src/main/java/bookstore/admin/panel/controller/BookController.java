@@ -72,11 +72,11 @@ public class BookController {
 
     @GetMapping ("/stock/{id}")
     ResponseEntity<Integer> getStockByBookId (@PathVariable Long id){
-        return ResponseEntity.ok(bookService.getStickByBookId(id));
+        return ResponseEntity.ok(bookService.getStockByBookId(id));
     }
 
     @PutMapping("/add-stock/{id}")
-    ResponseEntity<Void> addStockByBookId(@PathVariable Long id, @RequestBody Integer newStock){
+    ResponseEntity<Void> addStockByBookId(@PathVariable Long id, @RequestParam Integer newStock){
         bookService.addStockByBookId(id, newStock);
         return ResponseEntity.ok().build();
     }
