@@ -88,7 +88,7 @@ public class BookService {
         return books;
     }
 
-    public Integer getStickByBookId(Long id) {
+    public Integer getStockByBookId(Long id) {
         Book book = bookRepository.findById(id).orElseThrow(()
                 ->new NotFoundException("code 404", "book not found"));
         return book.getStock();
@@ -98,5 +98,6 @@ public class BookService {
         Book book = bookRepository.findById(id).orElseThrow(()
                 ->new NotFoundException("code 404", "book not found"));
         book.setStock(book.getStock()+newStock);
+        bookRepository.save(book);
     }
 }

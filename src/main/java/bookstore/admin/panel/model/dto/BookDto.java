@@ -1,5 +1,6 @@
 package bookstore.admin.panel.model.dto;
 
+import bookstore.admin.panel.dao.entity.Publisher;
 import bookstore.admin.panel.model.enums.Currency;
 import bookstore.admin.panel.model.enums.Language;
 import lombok.AllArgsConstructor;

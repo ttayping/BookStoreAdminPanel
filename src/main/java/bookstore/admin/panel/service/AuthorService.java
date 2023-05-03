@@ -44,7 +44,7 @@ public class AuthorService {
     public void updateAuthor(Long id, AuthorDto authorDto) {
         Author author = authorRepository.findById(id).orElseThrow(
                 () -> new NotFoundException("code404", "author didnt found. Please change search parameters"));
-        author.setId(id);
+        //   author.setId(id);
         author.setName(authorDto.getAuthorName());
         author.setBooks(bookRepository.findAllByIdIn(authorDto.getBookIdList()));
         authorRepository.save(author);
