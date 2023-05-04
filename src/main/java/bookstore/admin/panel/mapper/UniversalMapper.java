@@ -50,6 +50,4 @@ public interface UniversalMapper {
 
     List<ReviewDto> toReviewDtoList(List<Review> all);
 
-
-
 }

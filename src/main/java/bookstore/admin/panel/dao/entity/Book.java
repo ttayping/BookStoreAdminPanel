@@ -24,15 +24,15 @@ public class Book extends BaseEntity {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @Column(name = "language")
+    @Column(name = "language", nullable = false)
     private Language language;
 
     private Integer stock;
 
-    @Column(name = "price")
+    @Column(name = "price", nullable = false)
     private BigDecimal price;
 
-    @Column(name = "currency")
+    @Column(name = "currency", nullable = false)
     private Currency currency;
 
     @Column(name = "publication_date")
