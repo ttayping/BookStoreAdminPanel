@@ -26,7 +26,7 @@ public class AuthorService {
 
     public List<AuthorRequestDto> getAllAuthors() {
         List<Author> authors =authorRepository.findAll();
-        return mapper.toAuthorGetDtoList(authors);
+        return mapper.toAuthorRequestDtoList(authors);
     }
 
     public AuthorRequestDto getAuthorById(Long id) {

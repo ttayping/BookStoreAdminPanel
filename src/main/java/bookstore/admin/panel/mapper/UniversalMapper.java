@@ -22,9 +22,9 @@ public interface UniversalMapper {
 
     @Mapping(target = "authorName", source = "name")
     @Mapping(target = "bookIdDtoList", source = "books")
-    AuthorRequestDto toAuthorGetDto(Author authors);
+    AuthorRequestDto toAuthorRequestDto(Author authors);
 
-    List<AuthorRequestDto> toAuthorGetDtoList(List<Author> authors);
+    List<AuthorRequestDto> toAuthorRequestDtoList(List<Author> authors);
 
     @Mapping(target = "name", source = "bookName")
     Book toBookEntity(BookDto bookDto);

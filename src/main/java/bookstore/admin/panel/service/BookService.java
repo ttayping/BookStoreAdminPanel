@@ -115,7 +115,6 @@ public class BookService {
         return mapper.toBookRequestDtoList(books);
     }
 
-
     public List<List<BookRequestDto>> getBooksByPublisherName(String publisherName) {
         List<List<BookRequestDto>> books = new ArrayList<>();
         if(Objects.isNull(publisherName)){
@@ -126,7 +125,7 @@ public class BookService {
             throw new NotFoundException(Error.NOT_FOUND_ERROR_CODE, Error.PUBLISHER_NOT_FOUND_ERROR_MESSAGE);
         }
         for (Publisher publisher : publishers) {
-            books.add(mapper.toBookDtoList(publisher.getBooks()));
+            books.add(mapper.toBookRequestDtoList(publisher.getBooks()));
         }
         return books;
     }
