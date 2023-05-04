@@ -28,7 +28,6 @@ public class Swagger2Config {
                 .apiInfo(metaData());
     }
 
-
     private ApiInfo metaData() {
         return new ApiInfoBuilder()
                 .title("Swagger Documentation API")

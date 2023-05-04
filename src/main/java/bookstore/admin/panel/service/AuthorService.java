@@ -7,7 +7,7 @@ import bookstore.admin.panel.exception.Error;
 import bookstore.admin.panel.exception.NotFoundException;
 import bookstore.admin.panel.mapper.UniversalMapper;
 import bookstore.admin.panel.model.dto.AuthorDto;
-import bookstore.admin.panel.model.dto.AuthorGetDto;
+import bookstore.admin.panel.model.dto.AuthorRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,11 +21,12 @@ public class AuthorService {
 
     UniversalMapper mapper = UniversalMapper.MAPPER;
 
-    public List<AuthorGetDto> getAllAuthors() {
-        return mapper.toAuthorGetDtoList(authorRepository.findAll());
+    public List<AuthorRequestDto> getAllAuthors() {
+        List<Author> authors =authorRepository.findAll();
+        return mapper.toAuthorGetDtoList(authors);
     }
 
-    public AuthorGetDto getAuthorById(Long id) {
+    public AuthorRequestDto getAuthorById(Long id) {
         Author foundAuthor = authorRepository.findById(id).orElseThrow(()
                 -> new NotFoundException(Error.BOOK_NOT_FOUND_ERROR_CODE,
                 Error.BOOK_NOT_FOUND_ERROR_MESSAGE));

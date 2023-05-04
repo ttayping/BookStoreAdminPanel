@@ -11,8 +11,12 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthorGetDto {
+public class AuthorRequestDto {
 
+    private Long id;
     private String authorName;
-    private List<BookGetDto> bookGetDtoList;
+    private String surname;
+    private String mail;
+    private String phoneNumber;
+    private List<BookIdDto> bookIdDtoList;
 }

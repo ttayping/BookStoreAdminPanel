@@ -12,6 +12,7 @@ import bookstore.admin.panel.model.dto.BookDto;
 import bookstore.admin.panel.dao.entity.Book;
 import bookstore.admin.panel.dao.repository.BookRepository;
 
+import bookstore.admin.panel.model.dto.BookRequestDto;
 import bookstore.admin.panel.model.enums.Language;
 
 import lombok.RequiredArgsConstructor;
@@ -41,15 +42,15 @@ public class BookService {
         bookRepository.save(book);
     }
 
-    public List<BookDto> getAllBooks() {
-        return mapper.toBookDtoList(bookRepository.findAll());
+    public List<BookRequestDto> getAllBooks() {
+        return mapper.toBookRequestDtoList(bookRepository.findAll());
     }
 
-    public BookDto getBookById(Long id) {
+    public BookRequestDto getBookById(Long id) {
         Book book = bookRepository.findById(id).orElseThrow(
                 () -> new BadRequestException(Error.BOOK_NOT_FOUND_ERROR_CODE,
                         Error.BOOK_NOT_FOUND_ERROR_MESSAGE));
-        return mapper.toBookDto(book);
+        return mapper.toBookRequestDto(book);
     }
 
     public void updateBook(Long id, BookDto bookDto) {
@@ -57,7 +58,12 @@ public class BookService {
                 () -> new NotFoundException(Error.BOOK_NOT_FOUND_ERROR_CODE,
                         Error.BOOK_NOT_FOUND_ERROR_MESSAGE));
         book.setName(bookDto.getBookName());
-        book.setLanguage(book.getLanguage());
+        book.setStock(bookDto.getStock());
+        book.setLanguage(bookDto.getLanguage());
+        book.setPrice(bookDto.getPrice());
+        book.setCurrency(bookDto.getCurrency());
+        book.setPublicationDate(bookDto.getPublicationDate());
+        book.setDescription(bookDto.getDescription());
         book.setAuthors(authorRepository.findAllByIdIn(bookDto.getAuthorIdList()));
         book.setPublishers(publisherRepository.findAllByIdIn(bookDto.getPublisherIdList()));
         bookRepository.save(book);
@@ -70,26 +76,26 @@ public class BookService {
         bookRepository.deleteById(id);
     }
 
-    public List<BookDto> getBookByName(String name) {
-        return mapper.toBookDtoList(bookRepository.getBooksByName(name));
+    public List<BookRequestDto> getBookByName(String name) {
+        return mapper.toBookRequestDtoList(bookRepository.getBooksByName(name));
     }
 
-    public List<List<BookDto>> getBooksByAuthorName(String authorName) {
-        List<List<BookDto>> books = new ArrayList<>();
+    public List<List<BookRequestDto>> getBooksByAuthorName(String authorName) {
+        List<List<BookRequestDto>> books = new ArrayList<>();
         for (Author author : authorRepository.findAuthorByName(authorName)) {
-            books.add(mapper.toBookDtoList(author.getBooks()));
+            books.add(mapper.toBookRequestDtoList(author.getBooks()));
         }
         return books;
     }
 
-    public List<BookDto> getBooksByLanguage(Language language) {
-        return mapper.toBookDtoList(bookRepository.getBooksByLanguage(language));
+    public List<BookRequestDto> getBooksByLanguage(Language language) {
+        return mapper.toBookRequestDtoList(bookRepository.getBooksByLanguage(language));
     }
 
-    public List<List<BookDto>> getBooksByPublisherName(String publisherName) {
-        List<List<BookDto>> books = new ArrayList<>();
+    public List<List<BookRequestDto>> getBooksByPublisherName(String publisherName) {
+        List<List<BookRequestDto>> books = new ArrayList<>();
         for (Publisher publisher : publisherRepository.findPublisherByName(publisherName)) {
-            books.add(mapper.toBookDtoList(publisher.getBooks()));
+            books.add(mapper.toBookRequestDtoList(publisher.getBooks()));
         }
         return books;
     }
