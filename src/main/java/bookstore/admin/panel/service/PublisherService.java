@@ -8,6 +8,7 @@ import bookstore.admin.panel.exception.BadRequestException;
 import bookstore.admin.panel.exception.Error;
 import bookstore.admin.panel.mapper.UniversalMapper;
 import bookstore.admin.panel.model.dto.PublisherDto;
+import bookstore.admin.panel.model.dto.PublisherRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -50,15 +51,15 @@ public class PublisherService {
         publisherRepository.deleteById(id);
     }
 
-    public List<PublisherDto> getAllPublishers() {
-        return mapper.toPublisherDtoList(publisherRepository.findAll());
+    public List<PublisherRequestDto> getAllPublishers() {
+        return mapper.toPublisherRequestDtoList(publisherRepository.findAll());
     }
 
-    public PublisherDto getPublisherById(Long id) {
+    public PublisherRequestDto getPublisherById(Long id) {
         if (Objects.isNull(id)){
             throw new BadRequestException(Error.BAD_REQUEST_ERROR_CODE,Error.BAD_REQUEST_ERROR_MESSAGE);
         }
-        return mapper.toPublisherDto(publisherRepository.findById(id).orElseThrow(
+        return mapper.toPublisherRequestDto(publisherRepository.findById(id).orElseThrow(
                 () -> new BadRequestException(Error.NOT_FOUND_ERROR_CODE,
                 Error.BOOK_NOT_FOUND_ERROR_MESSAGE)));
     }

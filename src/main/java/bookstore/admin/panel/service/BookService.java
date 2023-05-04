@@ -12,6 +12,7 @@ import bookstore.admin.panel.model.dto.BookDto;
 import bookstore.admin.panel.dao.entity.Book;
 import bookstore.admin.panel.dao.repository.BookRepository;
 
+import bookstore.admin.panel.model.dto.BookRequestDto;
 import bookstore.admin.panel.model.enums.Language;
 
 import lombok.RequiredArgsConstructor;
@@ -47,15 +48,15 @@ public class BookService {
         bookRepository.save(book);
     }
 
-    public List<BookDto> getAllBooks() {
-        return mapper.toBookDtoList(bookRepository.findAll());
+    public List<BookRequestDto> getAllBooks() {
+        return mapper.toBookRequestDtoList(bookRepository.findAll());
     }
 
-    public BookDto getBookById(Long id) {
+    public BookRequestDto getBookById(Long id) {
         Book book = bookRepository.findById(id).orElseThrow(
                 () -> new BadRequestException(Error.NOT_FOUND_ERROR_CODE,
                         Error.BOOK_NOT_FOUND_ERROR_MESSAGE));
-        return mapper.toBookDto(book);
+        return mapper.toBookRequestDto(book);
     }
 
     public void updateBook(Long id, BookDto bookDto) {
@@ -63,7 +64,12 @@ public class BookService {
                 () -> new NotFoundException(Error.NOT_FOUND_ERROR_CODE,
                         Error.BOOK_NOT_FOUND_ERROR_MESSAGE));
         book.setName(bookDto.getBookName());
-        book.setLanguage(book.getLanguage());
+        book.setStock(bookDto.getStock());
+        book.setLanguage(bookDto.getLanguage());
+        book.setPrice(bookDto.getPrice());
+        book.setCurrency(bookDto.getCurrency());
+        book.setPublicationDate(bookDto.getPublicationDate());
+        book.setDescription(bookDto.getDescription());
         book.setAuthors(authorRepository.findAllByIdIn(bookDto.getAuthorIdList()));
         book.setPublishers(publisherRepository.findAllByIdIn(bookDto.getPublisherIdList()));
         bookRepository.save(book);
@@ -76,29 +82,29 @@ public class BookService {
         bookRepository.deleteById(id);
     }
 
-    public List<BookDto> getBookByName(String name) {
+    public List<BookRequestDto> getBookByName(String name) {
         if (Objects.isNull(bookRepository.getBooksByName(name))) {
             throw new NotFoundException(Error.NOT_FOUND_ERROR_CODE, Error.BOOK_NOT_FOUND_ERROR_MESSAGE);
         }
-        return mapper.toBookDtoList(bookRepository.getBooksByName(name));
+        return mapper.toBookRequestDtoList(bookRepository.getBooksByName(name));
     }
 
-    public List<List<BookDto>> getBooksByAuthorName(String authorName) {
+    public List<List<BookRequestDto>> getBooksByAuthorName(String authorName) {
         if (Objects.isNull(authorName)) {
             throw new BadRequestException(Error.BAD_REQUEST_ERROR_CODE, Error.BAD_REQUEST_ERROR_MESSAGE);
         }
-        List<List<BookDto>> books = new ArrayList<>();
+        List<List<BookRequestDto>> books = new ArrayList<>();
         List<Author> authors = authorRepository.findAuthorByName(authorName);
         if (authors.isEmpty()) {
             throw new NotFoundException(Error.NOT_FOUND_ERROR_CODE, Error.AUTHOR_NOT_FOUND_ERROR_MESSAGE);
         }
         for (Author author : authors) {
-            books.add(mapper.toBookDtoList(author.getBooks()));
+            books.add(mapper.toBookRequestDtoList(author.getBooks()));
         }
         return books;
     }
 
-    public List<BookDto> getBooksByLanguage(Language language) {
+    public List<BookRequestDto> getBooksByLanguage(Language language) {
         if (Objects.isNull(language)) {
             throw new BadRequestException(Error.BAD_REQUEST_ERROR_CODE, Error.BAD_REQUEST_ERROR_MESSAGE);
         }
@@ -106,14 +112,15 @@ public class BookService {
         if (books.isEmpty()) {
             throw new NotFoundException(Error.NOT_FOUND_ERROR_CODE, Error.BOOK_NOT_FOUND_ERROR_MESSAGE);
         }
-        return mapper.toBookDtoList(books);
+        return mapper.toBookRequestDtoList(books);
     }
 
-    public List<List<BookDto>> getBooksByPublisherName(String publisherName) {
+
+    public List<List<BookRequestDto>> getBooksByPublisherName(String publisherName) {
+        List<List<BookRequestDto>> books = new ArrayList<>();
         if(Objects.isNull(publisherName)){
             throw new BadRequestException(Error.BAD_REQUEST_ERROR_CODE,Error.BAD_REQUEST_ERROR_MESSAGE);
         }
-        List<List<BookDto>> books = new ArrayList<>();
         List<Publisher> publishers = publisherRepository.findPublisherByName(publisherName);
         if (publishers.isEmpty()) {
             throw new NotFoundException(Error.NOT_FOUND_ERROR_CODE, Error.PUBLISHER_NOT_FOUND_ERROR_MESSAGE);

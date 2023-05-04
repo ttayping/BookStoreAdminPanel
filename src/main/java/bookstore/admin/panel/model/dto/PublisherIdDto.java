@@ -5,15 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PublisherDto {
-    private String publisherName;
-    private String mail;
-    private String phoneNumber;
-    private List<Long> bookIdList;
+public class PublisherIdDto {
+    private Long id;
 }

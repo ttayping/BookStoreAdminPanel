@@ -2,6 +2,7 @@ package bookstore.admin.panel.controller;
 
 
 import bookstore.admin.panel.model.dto.PublisherDto;
+import bookstore.admin.panel.model.dto.PublisherRequestDto;
 import bookstore.admin.panel.service.PublisherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -36,12 +37,12 @@ public class PublisherController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PublisherDto> getPublisherById(@PathVariable Long id) {
+    public ResponseEntity<PublisherRequestDto> getPublisherById(@PathVariable Long id) {
         return ResponseEntity.ok(publisherService.getPublisherById(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<PublisherDto>> getPublishers() {
+    public ResponseEntity<List<PublisherRequestDto>> getPublishers() {
         return ResponseEntity.ok(publisherService.getAllPublishers());
     }
 }
