@@ -51,4 +51,6 @@ public interface UniversalMapper {
     @Mapping(target = "reviewerName", source = "reviewer")
     @Mapping(target = "reviewNote", source = "note")
     ReviewDto toReviewDto(Review review);
+    @Mapping(target = "authorName",source = "name")
+    AuthorDto toAuthorDto(Author author);
 }

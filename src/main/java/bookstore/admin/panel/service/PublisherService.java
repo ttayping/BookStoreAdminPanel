@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -21,13 +22,18 @@ public class PublisherService {
     private static final UniversalMapper mapper = UniversalMapper.MAPPER;
 
     public void addPublisher(PublisherDto publisherDto) {
-
+        if (Objects.isNull(publisherDto)){
+            throw new BadRequestException(Error.BAD_REQUEST_ERROR_CODE,Error.BAD_REQUEST_ERROR_MESSAGE);
+        }
         publisherRepository.save(mapper.toPublisherEntity(publisherDto));
     }
 
     public void updatePublisher(Long id, PublisherDto publisherDto) {
+        if (Objects.isNull(id)||Objects.isNull(publisherDto)){
+            throw new BadRequestException(Error.BAD_REQUEST_ERROR_CODE,Error.BAD_REQUEST_ERROR_MESSAGE);
+        }
         Publisher foundedPublisher = publisherRepository.findById(id).orElseThrow(
-                () -> new BadRequestException(Error.BOOK_NOT_FOUND_ERROR_CODE,
+                () -> new BadRequestException(Error.NOT_FOUND_ERROR_CODE,
                 Error.BOOK_NOT_FOUND_ERROR_MESSAGE));
         Publisher publisher = mapper.toPublisherEntity(publisherDto);
         foundedPublisher.setName(publisher.getName());
@@ -35,8 +41,11 @@ public class PublisherService {
 }
 
     public void deletePublisherById(Long id) {
+        if (Objects.isNull(id)){
+            throw new BadRequestException(Error.BAD_REQUEST_ERROR_CODE,Error.BAD_REQUEST_ERROR_MESSAGE);
+        }
         publisherRepository.findById(id).orElseThrow(()
-                -> new BadRequestException(Error.BOOK_NOT_FOUND_ERROR_CODE,
+                -> new BadRequestException(Error.NOT_FOUND_ERROR_CODE,
                         Error.BOOK_NOT_FOUND_ERROR_MESSAGE));
         publisherRepository.deleteById(id);
     }
@@ -46,8 +55,11 @@ public class PublisherService {
     }
 
     public PublisherDto getPublisherById(Long id) {
+        if (Objects.isNull(id)){
+            throw new BadRequestException(Error.BAD_REQUEST_ERROR_CODE,Error.BAD_REQUEST_ERROR_MESSAGE);
+        }
         return mapper.toPublisherDto(publisherRepository.findById(id).orElseThrow(
-                () -> new BadRequestException(Error.BOOK_NOT_FOUND_ERROR_CODE,
+                () -> new BadRequestException(Error.NOT_FOUND_ERROR_CODE,
                 Error.BOOK_NOT_FOUND_ERROR_MESSAGE)));
     }
 }
