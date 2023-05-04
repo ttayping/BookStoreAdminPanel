@@ -1,5 +1,7 @@
 package bookstore.admin.panel.controller;
 
+import bookstore.admin.panel.exception.BadRequestException;
+import bookstore.admin.panel.exception.Error;
 import bookstore.admin.panel.model.dto.AuthorDto;
 import bookstore.admin.panel.model.dto.AuthorGetDto;
 import bookstore.admin.panel.service.AuthorService;
@@ -8,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/author")
