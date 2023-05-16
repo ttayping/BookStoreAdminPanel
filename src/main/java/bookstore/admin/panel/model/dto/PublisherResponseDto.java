@@ -6,17 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-
-@Data
 @Builder
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthorRequestDto {
-
+public class PublisherResponseDto {
     private Long id;
-    private String authorName;
-    private String surname;
+    private String publisherName;
     private String mail;
     private String phoneNumber;
-    private List<BookIdDto> bookIdDtoList;
+    private List<BookIdDto> bookIdList;
 }

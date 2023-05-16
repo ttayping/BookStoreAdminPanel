@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class BookRequestDto {
+public class BookResponseDto {
     private Long id;
     private String bookName;
     private Integer stock;

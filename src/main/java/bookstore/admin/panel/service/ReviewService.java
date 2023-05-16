@@ -5,7 +5,7 @@ import bookstore.admin.panel.dao.repository.ReviewRepository;
 import bookstore.admin.panel.exception.BadRequestException;
 import bookstore.admin.panel.exception.Error;
 import bookstore.admin.panel.exception.NotFoundException;
-import bookstore.admin.panel.mapper.UniversalMapper;
+import bookstore.admin.panel.mapper.Mapper;
 import bookstore.admin.panel.model.dto.ReviewDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ import java.util.Objects;
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
-    private final UniversalMapper mapper = UniversalMapper.MAPPER;
+    private final Mapper mapper = Mapper.MAPPER;
 
     public List<ReviewDto> getAllReviews() {
         return mapper.toReviewDtoList(reviewRepository.findAll());

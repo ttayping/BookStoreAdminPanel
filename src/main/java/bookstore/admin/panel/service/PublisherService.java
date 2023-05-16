@@ -4,9 +4,9 @@ import bookstore.admin.panel.dao.entity.Publisher;
 import bookstore.admin.panel.dao.repository.PublisherRepository;
 import bookstore.admin.panel.exception.BadRequestException;
 import bookstore.admin.panel.exception.Error;
-import bookstore.admin.panel.mapper.UniversalMapper;
+import bookstore.admin.panel.mapper.Mapper;
 import bookstore.admin.panel.model.dto.PublisherDto;
-import bookstore.admin.panel.model.dto.PublisherRequestDto;
+import bookstore.admin.panel.model.dto.PublisherResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,7 @@ import java.util.Objects;
 public class PublisherService {
 
     private final PublisherRepository publisherRepository;
-    private static final UniversalMapper mapper = UniversalMapper.MAPPER;
+    private static final Mapper mapper = Mapper.MAPPER;
 
     public void addPublisher(PublisherDto publisherDto) {
         if (Objects.isNull(publisherDto)){
@@ -49,11 +49,11 @@ public class PublisherService {
         publisherRepository.deleteById(id);
     }
 
-    public List<PublisherRequestDto> getAllPublishers() {
+    public List<PublisherResponseDto> getAllPublishers() {
         return mapper.toPublisherRequestDtoList(publisherRepository.findAll());
     }
 
-    public PublisherRequestDto getPublisherById(Long id) {
+    public PublisherResponseDto getPublisherById(Long id) {
         if (Objects.isNull(id)){
             throw new BadRequestException(Error.BAD_REQUEST_ERROR_CODE,Error.BAD_REQUEST_ERROR_MESSAGE);
         }

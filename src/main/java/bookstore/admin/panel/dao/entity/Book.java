@@ -33,6 +33,7 @@ public class Book extends BaseEntity {
     private BigDecimal price;
 
     @Column(name = "currency", nullable = false)
+    @Enumerated(EnumType.STRING)
     private Currency currency;
 
     @Column(name = "publication_date")

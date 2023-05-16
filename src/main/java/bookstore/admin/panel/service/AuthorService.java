@@ -7,11 +7,12 @@ import bookstore.admin.panel.dao.repository.BookRepository;
 import bookstore.admin.panel.exception.BadRequestException;
 import bookstore.admin.panel.exception.Error;
 import bookstore.admin.panel.exception.NotFoundException;
-import bookstore.admin.panel.mapper.UniversalMapper;
+import bookstore.admin.panel.mapper.Mapper;
 import bookstore.admin.panel.model.dto.AuthorDto;
-import bookstore.admin.panel.model.dto.AuthorRequestDto;
+import bookstore.admin.panel.model.dto.AuthorResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -22,14 +23,14 @@ public class AuthorService {
     private final AuthorRepository authorRepository;
     private final BookRepository bookRepository;
 
-    UniversalMapper mapper = UniversalMapper.MAPPER;
+    Mapper mapper = Mapper.MAPPER;
 
-    public List<AuthorRequestDto> getAllAuthors() {
+    public List<AuthorResponseDto> getAllAuthors() {
         List<Author> authors =authorRepository.findAll();
         return mapper.toAuthorRequestDtoList(authors);
     }
 
-    public AuthorRequestDto getAuthorById(Long id) {
+    public AuthorResponseDto getAuthorById(Long id) {
         if (Objects.isNull(id)) {
             throw new BadRequestException(Error.BAD_REQUEST_ERROR_CODE, Error.BAD_REQUEST_ERROR_MESSAGE);
         }
@@ -39,14 +40,12 @@ public class AuthorService {
         return mapper.toAuthorRequestDto(foundAuthor);
     }
 
+    @Transactional
     public void addAuthor(AuthorDto authorDto) {
-        if (Objects.isNull(authorDto)) {
+        if (Objects.isNull(authorDto) || Objects.isNull(authorDto.getAuthorName())) {
             throw new BadRequestException(Error.BAD_REQUEST_ERROR_CODE, Error.BAD_REQUEST_ERROR_MESSAGE);
         }
         Author author = mapper.toAuthorEntity(authorDto);
-        if (Objects.isNull(author.getName())) {
-            throw new BadRequestException(Error.BAD_REQUEST_ERROR_CODE, Error.BAD_REQUEST_ERROR_MESSAGE);
-        }
         List<Book> books = bookRepository.findAllByIdIn(authorDto.getBookIdList());
         if (Objects.nonNull(books)) {
             author.setBooks(books);

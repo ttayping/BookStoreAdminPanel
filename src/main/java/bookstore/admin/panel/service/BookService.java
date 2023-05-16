@@ -7,12 +7,14 @@ import bookstore.admin.panel.dao.repository.PublisherRepository;
 import bookstore.admin.panel.exception.BadRequestException;
 import bookstore.admin.panel.exception.Error;
 import bookstore.admin.panel.exception.NotFoundException;
-import bookstore.admin.panel.mapper.UniversalMapper;
+import bookstore.admin.panel.filter.BookFilter;
+import bookstore.admin.panel.filter.BookSpecification;
+import bookstore.admin.panel.mapper.Mapper;
 import bookstore.admin.panel.model.dto.BookDto;
 import bookstore.admin.panel.dao.entity.Book;
 import bookstore.admin.panel.dao.repository.BookRepository;
 
-import bookstore.admin.panel.model.dto.BookRequestDto;
+import bookstore.admin.panel.model.dto.BookResponseDto;
 import bookstore.admin.panel.model.enums.Language;
 
 import lombok.RequiredArgsConstructor;
@@ -28,7 +30,7 @@ public class BookService {
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
     private final PublisherRepository publisherRepository;
-    private static final UniversalMapper mapper = UniversalMapper.MAPPER;
+    private static final Mapper mapper = Mapper.MAPPER;
 
     public void addBook(BookDto bookDto) {
         Book book = mapper.toBookEntity(bookDto);
@@ -48,11 +50,11 @@ public class BookService {
         bookRepository.save(book);
     }
 
-    public List<BookRequestDto> getAllBooks() {
+    public List<BookResponseDto> getAllBooks() {
         return mapper.toBookRequestDtoList(bookRepository.findAll());
     }
 
-    public BookRequestDto getBookById(Long id) {
+    public BookResponseDto getBookById(Long id) {
         Book book = bookRepository.findById(id).orElseThrow(
                 () -> new BadRequestException(Error.NOT_FOUND_ERROR_CODE,
                         Error.BOOK_NOT_FOUND_ERROR_MESSAGE));
@@ -63,15 +65,9 @@ public class BookService {
         Book book = bookRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(Error.NOT_FOUND_ERROR_CODE,
                         Error.BOOK_NOT_FOUND_ERROR_MESSAGE));
-        book.setName(bookDto.getBookName());
-        book.setStock(bookDto.getStock());
-        book.setLanguage(bookDto.getLanguage());
-        book.setPrice(bookDto.getPrice());
-        book.setCurrency(bookDto.getCurrency());
-        book.setPublicationDate(bookDto.getPublicationDate());
-        book.setDescription(bookDto.getDescription());
-        book.setAuthors(authorRepository.findAllByIdIn(bookDto.getAuthorIdList()));
-        book.setPublishers(publisherRepository.findAllByIdIn(bookDto.getPublisherIdList()));
+        List<Author> authors = authorRepository.findAllByIdIn(bookDto.getAuthorIdList());
+        List<Publisher> publishers = publisherRepository.findAllByIdIn(bookDto.getPublisherIdList());
+        book = mapper.toBookEntity(authors,publishers,bookDto, book);
         bookRepository.save(book);
     }
 
@@ -82,18 +78,18 @@ public class BookService {
         bookRepository.deleteById(id);
     }
 
-    public List<BookRequestDto> getBookByName(String name) {
+    public List<BookResponseDto> getBookByName(String name) {
         if (Objects.isNull(bookRepository.getBooksByName(name))) {
             throw new NotFoundException(Error.NOT_FOUND_ERROR_CODE, Error.BOOK_NOT_FOUND_ERROR_MESSAGE);
         }
         return mapper.toBookRequestDtoList(bookRepository.getBooksByName(name));
     }
 
-    public List<List<BookRequestDto>> getBooksByAuthorName(String authorName) {
+    public List<List<BookResponseDto>> getBooksByAuthorName(String authorName) {
         if (Objects.isNull(authorName)) {
             throw new BadRequestException(Error.BAD_REQUEST_ERROR_CODE, Error.BAD_REQUEST_ERROR_MESSAGE);
         }
-        List<List<BookRequestDto>> books = new ArrayList<>();
+        List<List<BookResponseDto>> books = new ArrayList<>();
         List<Author> authors = authorRepository.findAuthorByName(authorName);
         if (authors.isEmpty()) {
             throw new NotFoundException(Error.NOT_FOUND_ERROR_CODE, Error.AUTHOR_NOT_FOUND_ERROR_MESSAGE);
@@ -104,7 +100,7 @@ public class BookService {
         return books;
     }
 
-    public List<BookRequestDto> getBooksByLanguage(Language language) {
+    public List<BookResponseDto> getBooksByLanguage(Language language) {
         if (Objects.isNull(language)) {
             throw new BadRequestException(Error.BAD_REQUEST_ERROR_CODE, Error.BAD_REQUEST_ERROR_MESSAGE);
         }
@@ -115,10 +111,10 @@ public class BookService {
         return mapper.toBookRequestDtoList(books);
     }
 
-    public List<List<BookRequestDto>> getBooksByPublisherName(String publisherName) {
-        List<List<BookRequestDto>> books = new ArrayList<>();
-        if(Objects.isNull(publisherName)){
-            throw new BadRequestException(Error.BAD_REQUEST_ERROR_CODE,Error.BAD_REQUEST_ERROR_MESSAGE);
+    public List<List<BookResponseDto>> getBooksByPublisherName(String publisherName) {
+        List<List<BookResponseDto>> books = new ArrayList<>();
+        if (Objects.isNull(publisherName)) {
+            throw new BadRequestException(Error.BAD_REQUEST_ERROR_CODE, Error.BAD_REQUEST_ERROR_MESSAGE);
         }
         List<Publisher> publishers = publisherRepository.findPublisherByName(publisherName);
         if (publishers.isEmpty()) {
@@ -131,8 +127,8 @@ public class BookService {
     }
 
     public Integer getStockByBookId(Long id) {
-        if(Objects.isNull(id)){
-            throw new BadRequestException(Error.BAD_REQUEST_ERROR_CODE,Error.BAD_REQUEST_ERROR_MESSAGE);
+        if (Objects.isNull(id)) {
+            throw new BadRequestException(Error.BAD_REQUEST_ERROR_CODE, Error.BAD_REQUEST_ERROR_MESSAGE);
         }
         Book book = bookRepository.findById(id).orElseThrow(()
                 -> new NotFoundException(Error.NOT_FOUND_ERROR_CODE,
@@ -141,8 +137,8 @@ public class BookService {
     }
 
     public void addStockByBookId(Long id, Integer newStock) {
-        if (Objects.isNull(id)||Objects.isNull(newStock)){
-            throw new BadRequestException(Error.BAD_REQUEST_ERROR_CODE,Error.BAD_REQUEST_ERROR_MESSAGE);
+        if (Objects.isNull(id) || Objects.isNull(newStock)) {
+            throw new BadRequestException(Error.BAD_REQUEST_ERROR_CODE, Error.BAD_REQUEST_ERROR_MESSAGE);
         }
         Book book = bookRepository.findById(id).orElseThrow(()
                 -> new NotFoundException(Error.NOT_FOUND_ERROR_CODE,
@@ -150,4 +146,16 @@ public class BookService {
         book.setStock(book.getStock() + newStock);
         bookRepository.save(book);
     }
+
+    public List<BookResponseDto> getBooks(Long bookId, BookFilter filter) {
+        List<Book> books= bookRepository.findAll(new BookSpecification(filter,bookId));
+        return mapper.toBookRequestDtoList(books);
+    }
+
+    /*
+    public List<AccountView> getAccountsList(String customerId, AccountFilter filter) {
+      log.info("ActionLog.AccountService.getAccounts for {} start", customerId);
+    List<AccountEntity> accounts =
+                   accountRepository.findAll(new AccountSpecification(filter, customerId));
+     */
 }

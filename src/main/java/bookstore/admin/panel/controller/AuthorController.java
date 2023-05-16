@@ -1,16 +1,13 @@
 package bookstore.admin.panel.controller;
 
-import bookstore.admin.panel.exception.BadRequestException;
-import bookstore.admin.panel.exception.Error;
 import bookstore.admin.panel.model.dto.AuthorDto;
-import bookstore.admin.panel.model.dto.AuthorRequestDto;
+import bookstore.admin.panel.model.dto.AuthorResponseDto;
 import bookstore.admin.panel.service.AuthorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/author")
@@ -20,12 +17,12 @@ public class AuthorController {
     private final AuthorService authorService;
 
     @GetMapping
-    public ResponseEntity<List<AuthorRequestDto>> getAllAuthors() {
+    public ResponseEntity<List<AuthorResponseDto>> getAllAuthors() {
         return ResponseEntity.ok(authorService.getAllAuthors());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AuthorRequestDto> getAuthorById(@PathVariable Long id) {
+    public ResponseEntity<AuthorResponseDto> getAuthorById(@PathVariable Long id) {
         return ResponseEntity.ok(authorService.getAuthorById(id));
     }   
 
