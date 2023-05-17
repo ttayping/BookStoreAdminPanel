@@ -1,7 +1,6 @@
 package bookstore.admin.panel.dao.repository;
 
 import bookstore.admin.panel.dao.entity.Book;
-import bookstore.admin.panel.filter.BookSpecification;
 import bookstore.admin.panel.model.enums.Language;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;

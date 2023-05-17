@@ -5,7 +5,6 @@ import bookstore.admin.panel.dao.entity.Author;
 import bookstore.admin.panel.dao.entity.Book;
 import bookstore.admin.panel.dao.entity.Publisher;
 import bookstore.admin.panel.model.dto.*;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
