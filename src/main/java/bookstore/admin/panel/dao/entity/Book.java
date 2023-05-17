@@ -25,6 +25,7 @@ public class Book extends BaseEntity {
     private String name;
 
     @Column(name = "language", nullable = false)
+    @Enumerated(EnumType.STRING)
     private Language language;
 
     private Integer stock;

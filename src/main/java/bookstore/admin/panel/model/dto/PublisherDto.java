@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PublisherDto {
-    private String publisherName;
+    private String name;
     private String mail;
     private String phoneNumber;
     private List<Long> bookIdList;

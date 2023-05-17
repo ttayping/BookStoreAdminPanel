@@ -18,4 +18,12 @@ public interface Mapper {
                       List<Publisher> publishers,
                       BookDto bookDto,
                       @MappingTarget Book book);
+
+    Publisher toPublisherEntity(List<Book> books,
+                                PublisherDto publisherDto,
+                                @MappingTarget Publisher publisher);
+
+    Author toAuthorEntity(List<Book> books,
+                          AuthorDto authorDto,
+                          @MappingTarget Author author);
 }

@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReviewDto {
-    private String reviewerName;
-    private String reviewNote;
+    private String reviewer;
+    private String note;
     private Long bookId;
 
 }

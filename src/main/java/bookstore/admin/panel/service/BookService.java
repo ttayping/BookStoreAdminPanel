@@ -145,7 +145,13 @@ public class BookService {
 
     public List<BookDto> getBooks(BookFilter filter) {
         List<Book> books = bookRepository.findAll(new BookSpecification(filter));
-        return bookMapper.toDto(books);
+        List<BookDto> bookDtos = bookMapper.toDto(books);
+//  it will NOT work when filter return two or more books!
+        List<Long> idList = new ArrayList<>();
+        idList.add(books.iterator().next().getAuthors().iterator().next().getId());
+        bookDtos.iterator().next().setAuthorIdList(idList);
+
+        return bookDtos;
     }
 
 

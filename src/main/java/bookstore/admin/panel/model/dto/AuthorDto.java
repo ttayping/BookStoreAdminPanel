@@ -13,8 +13,8 @@ import java.util.List;
 @NoArgsConstructor
 public class AuthorDto {
 
-    private String authorName;
-    private String surname;
+    private String name;
+    private String surName;
     private String mail;
     private String phoneNumber;
     private List<Long> bookIdList;

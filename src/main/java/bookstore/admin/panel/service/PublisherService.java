@@ -6,6 +6,7 @@ import bookstore.admin.panel.dao.repository.BookRepository;
 import bookstore.admin.panel.dao.repository.PublisherRepository;
 import bookstore.admin.panel.exception.BadRequestException;
 import bookstore.admin.panel.exception.Error;
+import bookstore.admin.panel.mapper.Mapper;
 import bookstore.admin.panel.mapper.PublisherMapper;
 import bookstore.admin.panel.model.dto.PublisherDto;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ public class PublisherService {
 
     private final PublisherRepository publisherRepository;
     private final BookRepository bookRepository;
+    private static final Mapper mapper = Mapper.MAPPER;
     private static final PublisherMapper publisherMapper = PublisherMapper.PUBLISHER_MAPPER;
 
     public void addPublisher(PublisherDto publisherDto) {
@@ -41,11 +43,8 @@ public class PublisherService {
         Publisher foundedPublisher = publisherRepository.findById(id).orElseThrow(
                 () -> new BadRequestException(Error.NOT_FOUND_ERROR_CODE,
                         Error.BOOK_NOT_FOUND_ERROR_MESSAGE));
-        Publisher publisher = publisherMapper.toEntity(publisherDto);
-        foundedPublisher.setName(publisher.getName());
-        if (Objects.nonNull(publisherDto.getBookIdList())) {
-            foundedPublisher.setBooks(bookRepository.findAllByIdIn(publisherDto.getBookIdList()));
-        }
+        List<Book> books = bookRepository.findAllByIdIn(publisherDto.getBookIdList());
+        foundedPublisher = mapper.toPublisherEntity(books, publisherDto, foundedPublisher);
         publisherRepository.save(foundedPublisher);
     }
 

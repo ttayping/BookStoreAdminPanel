@@ -8,6 +8,7 @@ import bookstore.admin.panel.exception.BadRequestException;
 import bookstore.admin.panel.exception.Error;
 import bookstore.admin.panel.exception.NotFoundException;
 import bookstore.admin.panel.mapper.AuthorMapper;
+import bookstore.admin.panel.mapper.Mapper;
 import bookstore.admin.panel.model.dto.AuthorDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ public class AuthorService {
     private final AuthorRepository authorRepository;
     private final BookRepository bookRepository;
     AuthorMapper authorMapper = AuthorMapper.AUTHOR_MAPPER;
+    private static final Mapper mapper = Mapper.MAPPER;
 
     public List<AuthorDto> getAllAuthors() {
         List<Author> authors = authorRepository.findAll();
@@ -40,7 +42,7 @@ public class AuthorService {
 
     @Transactional
     public void addAuthor(AuthorDto authorDto) {
-        if (Objects.isNull(authorDto) || Objects.isNull(authorDto.getAuthorName())) {
+        if (Objects.isNull(authorDto) || Objects.isNull(authorDto.getName())) {
             throw new BadRequestException(Error.BAD_REQUEST_ERROR_CODE, Error.BAD_REQUEST_ERROR_MESSAGE);
         }
         Author author = authorMapper.toEntity(authorDto);
@@ -68,11 +70,9 @@ public class AuthorService {
         Author author = authorRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(Error.NOT_FOUND_ERROR_CODE,
                         Error.AUTHOR_NOT_FOUND_ERROR_MESSAGE));
-        //authorDto-nun name field-i set edilmezden evvel null check mutleq!
-        author.setName(authorDto.getAuthorName());
-        if (Objects.nonNull(authorDto.getBookIdList())) {
-            author.setBooks(bookRepository.findAllByIdIn(authorDto.getBookIdList()));
-        }
+
+        List<Book> books = bookRepository.findAllByIdIn(authorDto.getBookIdList());
+        author = mapper.toAuthorEntity(books, authorDto, author);
         authorRepository.save(author);
     }
 }

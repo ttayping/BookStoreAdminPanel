@@ -14,7 +14,7 @@ import java.util.List;
 @Setter
 public class Author extends BaseEntity {
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
     private String name;
 
     @Column(name = "surName")
