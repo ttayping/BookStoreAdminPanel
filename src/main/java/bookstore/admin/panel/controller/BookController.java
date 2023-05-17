@@ -2,7 +2,6 @@ package bookstore.admin.panel.controller;
 
 import bookstore.admin.panel.filter.BookFilter;
 import bookstore.admin.panel.model.dto.BookDto;
-import bookstore.admin.panel.model.dto.BookResponseDto;
 import bookstore.admin.panel.model.enums.Language;
 import bookstore.admin.panel.service.BookService;
 import io.swagger.annotations.Api;
@@ -27,20 +26,19 @@ public class BookController {
         return ResponseEntity.ok().build();
     }
 
-//    @GetMapping
-//    @ApiOperation("method for get all books from store")
-//    public ResponseEntity<List<BookResponseDto>> getAllBooks() {
-//        return ResponseEntity.ok(bookService.getAllBooks());
-//    }
     @GetMapping
-    public ResponseEntity<List<BookResponseDto>> getBooks(@RequestHeader(value = "book-id")
-                                                              Long bookId, BookFilter filter) {
-        return ResponseEntity.ok(bookService.getBooks(bookId,filter));
+    @ApiOperation("method for get all books from store")
+    public ResponseEntity<List<BookDto>> getAllBooks() {
+        return ResponseEntity.ok(bookService.getAllBooks());
     }
 
+    @GetMapping("/filter")
+    public ResponseEntity<List<BookDto>> getBooks(BookFilter filter) {
+        return ResponseEntity.ok(bookService.getBooks(filter));
+    }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BookResponseDto> getBookById(@PathVariable Long id) {
+    public ResponseEntity<BookDto> getBookById(@PathVariable Long id) {
         return ResponseEntity.ok(bookService.getBookById(id));
     }
 
@@ -50,30 +48,24 @@ public class BookController {
         return ResponseEntity.ok().build();
     }
 
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBookById(@PathVariable Long id) {
         bookService.deleteBookById(id);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/name/{bookName}")
-    public ResponseEntity<List<BookResponseDto>> getBookByName(@PathVariable String bookName) {
-        return ResponseEntity.ok(bookService.getBookByName(bookName));
-    }
-
     @GetMapping("/author/{author}")
-    public ResponseEntity<List<List<BookResponseDto>>> getBooksByAuthorName(@PathVariable String author) {
+    public ResponseEntity<List<List<BookDto>>> getBooksByAuthorName(@PathVariable String author) {
         return ResponseEntity.ok(bookService.getBooksByAuthorName(author));
     }
 
     @GetMapping("/publisher/{publisher}")
-    public ResponseEntity<List<List<BookResponseDto>>> getBooksByPublisherName(@PathVariable String publisher) {
+    public ResponseEntity<List<List<BookDto>>> getBooksByPublisherName(@PathVariable String publisher) {
         return ResponseEntity.ok(bookService.getBooksByPublisherName(publisher));
     }
 
     @GetMapping("/language/{language}")
-    public ResponseEntity<List<BookResponseDto>> getBooksByLanguage(@PathVariable Language language) {
+    public ResponseEntity<List<BookDto>> getBooksByLanguage(@PathVariable Language language) {
         return ResponseEntity.ok(bookService.getBooksByLanguage(language));
     }
 
@@ -88,5 +80,4 @@ public class BookController {
         bookService.addStockByBookId(id, newStock);
         return ResponseEntity.ok().build();
     }
-
 }

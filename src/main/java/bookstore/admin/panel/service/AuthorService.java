@@ -7,9 +7,8 @@ import bookstore.admin.panel.dao.repository.BookRepository;
 import bookstore.admin.panel.exception.BadRequestException;
 import bookstore.admin.panel.exception.Error;
 import bookstore.admin.panel.exception.NotFoundException;
-import bookstore.admin.panel.mapper.Mapper;
+import bookstore.admin.panel.mapper.AuthorMapper;
 import bookstore.admin.panel.model.dto.AuthorDto;
-import bookstore.admin.panel.model.dto.AuthorResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,22 +21,21 @@ import java.util.Objects;
 public class AuthorService {
     private final AuthorRepository authorRepository;
     private final BookRepository bookRepository;
+    AuthorMapper authorMapper = AuthorMapper.AUTHOR_MAPPER;
 
-    Mapper mapper = Mapper.MAPPER;
-
-    public List<AuthorResponseDto> getAllAuthors() {
-        List<Author> authors =authorRepository.findAll();
-        return mapper.toAuthorRequestDtoList(authors);
+    public List<AuthorDto> getAllAuthors() {
+        List<Author> authors = authorRepository.findAll();
+        return authorMapper.toDto(authors);
     }
 
-    public AuthorResponseDto getAuthorById(Long id) {
+    public AuthorDto getAuthorById(Long id) {
         if (Objects.isNull(id)) {
             throw new BadRequestException(Error.BAD_REQUEST_ERROR_CODE, Error.BAD_REQUEST_ERROR_MESSAGE);
         }
         Author foundAuthor = authorRepository.findById(id).orElseThrow(()
                 -> new NotFoundException(Error.NOT_FOUND_ERROR_CODE,
                 Error.AUTHOR_NOT_FOUND_ERROR_MESSAGE));
-        return mapper.toAuthorRequestDto(foundAuthor);
+        return authorMapper.toDto(foundAuthor);
     }
 
     @Transactional
@@ -45,7 +43,7 @@ public class AuthorService {
         if (Objects.isNull(authorDto) || Objects.isNull(authorDto.getAuthorName())) {
             throw new BadRequestException(Error.BAD_REQUEST_ERROR_CODE, Error.BAD_REQUEST_ERROR_MESSAGE);
         }
-        Author author = mapper.toAuthorEntity(authorDto);
+        Author author = authorMapper.toEntity(authorDto);
         List<Book> books = bookRepository.findAllByIdIn(authorDto.getBookIdList());
         if (Objects.nonNull(books)) {
             author.setBooks(books);
@@ -64,14 +62,17 @@ public class AuthorService {
     }
 
     public void updateAuthor(Long id, AuthorDto authorDto) {
-        if (Objects.isNull(id)||Objects.isNull(authorDto)){
-            throw new BadRequestException(Error.BAD_REQUEST_ERROR_CODE,Error.BAD_REQUEST_ERROR_MESSAGE);
+        if (Objects.isNull(id) || Objects.isNull(authorDto)) {
+            throw new BadRequestException(Error.BAD_REQUEST_ERROR_CODE, Error.BAD_REQUEST_ERROR_MESSAGE);
         }
         Author author = authorRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(Error.NOT_FOUND_ERROR_CODE,
                         Error.AUTHOR_NOT_FOUND_ERROR_MESSAGE));
+        //authorDto-nun name field-i set edilmezden evvel null check mutleq!
         author.setName(authorDto.getAuthorName());
-        author.setBooks(bookRepository.findAllByIdIn(authorDto.getBookIdList()));
+        if (Objects.nonNull(authorDto.getBookIdList())) {
+            author.setBooks(bookRepository.findAllByIdIn(authorDto.getBookIdList()));
+        }
         authorRepository.save(author);
     }
 }

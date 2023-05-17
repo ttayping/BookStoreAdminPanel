@@ -5,7 +5,7 @@ import bookstore.admin.panel.dao.repository.ReviewRepository;
 import bookstore.admin.panel.exception.BadRequestException;
 import bookstore.admin.panel.exception.Error;
 import bookstore.admin.panel.exception.NotFoundException;
-import bookstore.admin.panel.mapper.Mapper;
+import bookstore.admin.panel.mapper.ReviewMapper;
 import bookstore.admin.panel.model.dto.ReviewDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,10 +18,10 @@ import java.util.Objects;
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
-    private final Mapper mapper = Mapper.MAPPER;
+    private static final ReviewMapper reviewMapper = ReviewMapper.REVIEW_MAPPER;
 
     public List<ReviewDto> getAllReviews() {
-        return mapper.toReviewDtoList(reviewRepository.findAll());
+        return reviewMapper.toDto(reviewRepository.findAll());
     }
 
     public ReviewDto getReviewById(Long id) {
@@ -31,7 +31,7 @@ public class ReviewService {
         Review review = reviewRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(Error.NOT_FOUND_ERROR_CODE,
                         Error.BOOK_NOT_FOUND_ERROR_MESSAGE));
-        return mapper.toReviewDto(review);
+        return reviewMapper.toDto(review);
     }
 
     public List<ReviewDto> getAllReviewsByBook(String bookName) {
@@ -39,6 +39,6 @@ public class ReviewService {
         if (review.isEmpty()){
             throw new NotFoundException(Error.NOT_FOUND_ERROR_CODE,Error.REVIEW_NOT_FOUND_ERROR_MESSAGE);
         }
-            return mapper.toReviewDtoList(review);
+            return reviewMapper.toDto(review);
     }
 }

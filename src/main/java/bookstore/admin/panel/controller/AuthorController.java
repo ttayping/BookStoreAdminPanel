@@ -1,7 +1,6 @@
 package bookstore.admin.panel.controller;
 
 import bookstore.admin.panel.model.dto.AuthorDto;
-import bookstore.admin.panel.model.dto.AuthorResponseDto;
 import bookstore.admin.panel.service.AuthorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,14 +16,14 @@ public class AuthorController {
     private final AuthorService authorService;
 
     @GetMapping
-    public ResponseEntity<List<AuthorResponseDto>> getAllAuthors() {
+    public ResponseEntity<List<AuthorDto>> getAllAuthors() {
         return ResponseEntity.ok(authorService.getAllAuthors());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AuthorResponseDto> getAuthorById(@PathVariable Long id) {
+    public ResponseEntity<AuthorDto> getAuthorById(@PathVariable Long id) {
         return ResponseEntity.ok(authorService.getAuthorById(id));
-    }   
+    }
 
     @PostMapping
     public ResponseEntity<Void> addAuthor(@RequestBody AuthorDto authorDto) {
