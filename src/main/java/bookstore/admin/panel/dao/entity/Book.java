@@ -6,6 +6,7 @@ import bookstore.admin.panel.model.enums.Language;
 import javax.persistence.*;
 
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -37,6 +38,7 @@ public class Book extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Currency currency;
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @Column(name = "publication_date")
     private LocalDate publicationDate;
 

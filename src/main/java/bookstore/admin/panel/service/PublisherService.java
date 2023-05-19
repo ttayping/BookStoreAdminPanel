@@ -7,8 +7,10 @@ import bookstore.admin.panel.dao.repository.PublisherRepository;
 import bookstore.admin.panel.exception.BadRequestException;
 import bookstore.admin.panel.exception.Error;
 import bookstore.admin.panel.mapper.Mapper;
-import bookstore.admin.panel.mapper.PublisherMapper;
-import bookstore.admin.panel.model.dto.PublisherDto;
+import bookstore.admin.panel.mapper.PublisherRequestMapper;
+import bookstore.admin.panel.mapper.PublisherResponseMapper;
+import bookstore.admin.panel.model.dto.PublisherRequestDto;
+import bookstore.admin.panel.model.dto.PublisherResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,13 +24,14 @@ public class PublisherService {
     private final PublisherRepository publisherRepository;
     private final BookRepository bookRepository;
     private static final Mapper mapper = Mapper.MAPPER;
-    private static final PublisherMapper publisherMapper = PublisherMapper.PUBLISHER_MAPPER;
+    private static final PublisherRequestMapper publisherRequestMapper = PublisherRequestMapper.PUBLISHER_REQUEST_MAPPER;
+    private static final PublisherResponseMapper publisherResponseMapper = PublisherResponseMapper.PUBLISHER_RESPONSE_MAPPER;
 
-    public void addPublisher(PublisherDto publisherDto) {
+    public void addPublisher(PublisherRequestDto publisherDto) {
         if (Objects.isNull(publisherDto)) {
             throw new BadRequestException(Error.BAD_REQUEST_ERROR_CODE, Error.BAD_REQUEST_ERROR_MESSAGE);
         }
-        Publisher publisher = publisherMapper.toEntity(publisherDto);
+        Publisher publisher = publisherRequestMapper.toEntity(publisherDto);
         List<Book> books = bookRepository.findAllByIdIn(publisherDto.getBookIdList());
         if (Objects.nonNull(books)) {
             publisher.setBooks(books);
@@ -36,7 +39,7 @@ public class PublisherService {
         publisherRepository.save(publisher);
     }
 
-    public void updatePublisher(Long id, PublisherDto publisherDto) {
+    public void updatePublisher(Long id, PublisherRequestDto publisherDto) {
         if (Objects.isNull(id) || Objects.isNull(publisherDto)) {
             throw new BadRequestException(Error.BAD_REQUEST_ERROR_CODE, Error.BAD_REQUEST_ERROR_MESSAGE);
         }
@@ -58,15 +61,15 @@ public class PublisherService {
         publisherRepository.deleteById(id);
     }
 
-    public List<PublisherDto> getAllPublishers() {
-        return publisherMapper.toDto(publisherRepository.findAll());
+    public List<PublisherResponseDto> getAllPublishers() {
+        return publisherResponseMapper.toDto(publisherRepository.findAll());
     }
 
-    public PublisherDto getPublisherById(Long id) {
+    public PublisherResponseDto getPublisherById(Long id) {
         if (Objects.isNull(id)) {
             throw new BadRequestException(Error.BAD_REQUEST_ERROR_CODE, Error.BAD_REQUEST_ERROR_MESSAGE);
         }
-        return publisherMapper.toDto(publisherRepository.findById(id).orElseThrow(
+        return publisherResponseMapper.toDto(publisherRepository.findById(id).orElseThrow(
                 () -> new BadRequestException(Error.NOT_FOUND_ERROR_CODE,
                         Error.BOOK_NOT_FOUND_ERROR_MESSAGE)));
     }

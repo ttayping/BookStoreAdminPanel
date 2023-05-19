@@ -1,6 +1,6 @@
 package bookstore.admin.panel.controller;
 
-import bookstore.admin.panel.model.dto.ReviewDto;
+import bookstore.admin.panel.model.dto.ReviewResponseDto;
 import bookstore.admin.panel.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,17 +18,17 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @GetMapping
-    public ResponseEntity<List<ReviewDto>> getAllAuthors() {
+    public ResponseEntity<List<ReviewResponseDto>> getAllAuthors() {
         return ResponseEntity.ok(reviewService.getAllReviews());
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<ReviewDto> getReviewById(@PathVariable Long id) {
+    public ResponseEntity<ReviewResponseDto> getReviewById(@PathVariable Long id) {
         return ResponseEntity.ok(reviewService.getReviewById(id));
     }
 
     @GetMapping("/book/{book}")
-    public ResponseEntity<List<ReviewDto>> getAllReviewsByBook(@PathVariable String book) {
+    public ResponseEntity<List<ReviewResponseDto>> getAllReviewsByBook(@PathVariable String book) {
         return ResponseEntity.ok(reviewService.getAllReviewsByBook(book));
     }
 }

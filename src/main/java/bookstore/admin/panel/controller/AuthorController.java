@@ -1,6 +1,7 @@
 package bookstore.admin.panel.controller;
 
-import bookstore.admin.panel.model.dto.AuthorDto;
+import bookstore.admin.panel.model.dto.AuthorRequestDto;
+import bookstore.admin.panel.model.dto.AuthorResponseDto;
 import bookstore.admin.panel.service.AuthorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,17 +17,17 @@ public class AuthorController {
     private final AuthorService authorService;
 
     @GetMapping
-    public ResponseEntity<List<AuthorDto>> getAllAuthors() {
+    public ResponseEntity<List<AuthorResponseDto>> getAllAuthors() {
         return ResponseEntity.ok(authorService.getAllAuthors());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AuthorDto> getAuthorById(@PathVariable Long id) {
+    public ResponseEntity<AuthorResponseDto> getAuthorById(@PathVariable Long id) {
         return ResponseEntity.ok(authorService.getAuthorById(id));
     }
 
     @PostMapping
-    public ResponseEntity<Void> addAuthor(@RequestBody AuthorDto authorDto) {
+    public ResponseEntity<Void> addAuthor(@RequestBody AuthorRequestDto authorDto) {
         authorService.addAuthor(authorDto);
         return ResponseEntity.ok().build();
     }
@@ -38,7 +39,7 @@ public class AuthorController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateAuthor(@PathVariable Long id, @RequestBody AuthorDto authorDto) {
+    public ResponseEntity<Void> updateAuthor(@PathVariable Long id, @RequestBody AuthorRequestDto authorDto) {
         authorService.updateAuthor(id, authorDto);
         return ResponseEntity.ok().build();
     }

@@ -16,14 +16,14 @@ public interface Mapper {
 
     Book toBookEntity(List<Author> authors,
                       List<Publisher> publishers,
-                      BookDto bookDto,
+                      BookRequestDto bookDto,
                       @MappingTarget Book book);
 
     Publisher toPublisherEntity(List<Book> books,
-                                PublisherDto publisherDto,
+                                PublisherRequestDto publisherDto,
                                 @MappingTarget Publisher publisher);
 
     Author toAuthorEntity(List<Book> books,
-                          AuthorDto authorDto,
+                          AuthorRequestDto authorDto,
                           @MappingTarget Author author);
 }
