@@ -24,6 +24,6 @@ public class BookResponseDto {
     private Currency currency;
     private LocalDate publicationDate;
     private String description;
-    private List<AuthorRequestDto> authors;
+    private List<AuthorResponseDto> authors;
     private List <PublisherRequestDto> publishers;
 }

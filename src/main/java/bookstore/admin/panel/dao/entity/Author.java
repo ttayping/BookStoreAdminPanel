@@ -26,13 +26,10 @@ public class Author extends BaseEntity {
     @Column(name = "phoneNumber")
     private String phoneNumber;
 
-    @ManyToMany(mappedBy = "authors")
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    @JoinTable(name = "book_author",
+            joinColumns = @JoinColumn(name = "author_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id"))
     private List<Book> books;
-
-    public List<Long> getBooksId() {
-        List<Long> longs = new ArrayList<>();
-        for (Book book : books) {
-            longs.add(book.getId());
-        }return longs;
-    }
 }

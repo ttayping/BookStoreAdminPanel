@@ -9,5 +9,4 @@ public interface AuthorRepository extends JpaRepository<Author, Long> {
 
     List<Author> findAllByIdIn(List<Long> idList);
 
-    List<Author> findAuthorByName(String name);
 }

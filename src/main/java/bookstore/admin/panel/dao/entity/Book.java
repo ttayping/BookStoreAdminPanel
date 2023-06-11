@@ -10,6 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -61,10 +62,10 @@ public class Book extends BaseEntity {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "book_author",
-            joinColumns = {@JoinColumn(name = "book_id")},
-            inverseJoinColumns = {@JoinColumn(name = "author_id")}
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "author_id")
     )
-    private List<Author> authors;
 
+    private List<Author> authors;
 }
 

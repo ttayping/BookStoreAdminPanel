@@ -19,10 +19,13 @@ import bookstore.admin.panel.dao.repository.BookRepository;
 import bookstore.admin.panel.model.dto.BookResponseDto;
 
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +33,7 @@ public class BookService {
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
     private final PublisherRepository publisherRepository;
+    private final Executor asyncExecutor;
     private static final Mapper mapper = Mapper.MAPPER;
     private static final BookRequestMapper bookRequestMapper = BookRequestMapper.BOOK_REQUEST_MAPPER;
     private static final BookResponseMapper bookResponseMapper = BookResponseMapper.BOOK_RESPONSE_MAPPER;
@@ -64,12 +68,21 @@ public class BookService {
         return bookResponseMapper.toDto(book);
     }
 
+    @SneakyThrows
     public void updateBook(Long id, BookRequestDto bookDto) {
-        Book book = bookRepository.findById(id).orElseThrow(
-                () -> new NotFoundException(Error.NOT_FOUND_ERROR_CODE,
-                        Error.BOOK_NOT_FOUND_ERROR_MESSAGE));
-        List<Author> authors = authorRepository.findAllByIdIn(bookDto.getAuthorIdList());
-        List<Publisher> publishers = publisherRepository.findAllByIdIn(bookDto.getPublisherIdList());
+        var bookCompletableFuture = CompletableFuture.supplyAsync(() ->
+                bookRepository.findById(id).orElseThrow(() ->
+                        new NotFoundException(Error.NOT_FOUND_ERROR_CODE, Error.BOOK_NOT_FOUND_ERROR_MESSAGE)), asyncExecutor);
+        var authorsCompletableFuture = CompletableFuture.supplyAsync(() ->
+                authorRepository.findAllByIdIn(bookDto.getAuthorIdList()));
+        var publishersCompletableFuture = CompletableFuture.supplyAsync(() ->
+                publisherRepository.findAllByIdIn(bookDto.getPublisherIdList()));
+
+        CompletableFuture.allOf(bookCompletableFuture, authorsCompletableFuture, publishersCompletableFuture).join();
+        Book book=bookCompletableFuture.get();
+        List<Author> authors=authorsCompletableFuture.get();
+        List<Publisher> publishers = publishersCompletableFuture.get();
+
         book = mapper.toBookEntity(authors, publishers, bookDto, book);
 
         bookRepository.save(book);

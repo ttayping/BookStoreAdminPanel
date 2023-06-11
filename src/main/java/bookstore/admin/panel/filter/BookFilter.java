@@ -12,7 +12,9 @@ import java.util.List;
 @Setter
 public class BookFilter {
     private String name;
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) private LocalDate dateFrom;
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) private LocalDate dateTo;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDate dateFrom;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDate dateTo;
     private List<Language> language;
 }

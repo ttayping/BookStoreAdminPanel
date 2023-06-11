@@ -30,12 +30,11 @@ public class BookSpecification implements Specification<Book> {
         }
 
         if (!ObjectUtils.isEmpty(filter.getDateFrom()) && !ObjectUtils.isEmpty(filter.getDateTo())) {
-            LocalDate dateFrom = filter.getDateFrom();
-            LocalDate dateTo = filter.getDateTo().plusDays(1);
-            predicates.add(criteriaBuilder.between(root.get("publicationDate"), dateFrom, dateTo));
+            predicates.add(criteriaBuilder.between(root.get("publicationDate"),
+                    filter.getDateFrom(), filter.getDateTo().plusDays(1)));
         }
 
-        if (!ObjectUtils.isEmpty(filter.getLanguage())){
+        if (!ObjectUtils.isEmpty(filter.getLanguage())) {
             predicates.add(root.get("language").in(filter.getLanguage()));
         }
 
